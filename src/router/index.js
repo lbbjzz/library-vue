@@ -14,7 +14,7 @@ Vue.use(VueRouter)
     path: '/login',
     name: 'Login',
     component: Login
-  }
+  },
 ]
 
 const router = new VueRouter({
