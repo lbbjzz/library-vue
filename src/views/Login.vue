@@ -1,7 +1,7 @@
 <template>
     <div class="login">
 
-        <!--        <Header></Header>-->
+        <!--  顶部国际化组件-->
         <div class="el-login-header">
             <el-select
                     v-model="value"
@@ -13,8 +13,9 @@
                         :value="item.value"
                 ></el-option>
             </el-select>
-
         </div>
+
+        <!--        登陆主体-->
         <el-form ref="form" :model="form" class="login-form" :rules="rules">
             <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
             <el-form-item prop="username">
@@ -28,12 +29,29 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
+            <el-form-item @click="handleClick">
+                <div class="login-code">
+                    <slide-verify
+                            :l="43"
+                            :r="10"
+                            :w="305"
+                            :h="190"
+                            :imgs="bgimgs"
+                            @success="onSuccess"
+                            @fail="onFail"
+                            @refresh="onRefresh"
+                            :slider-text="text"
+                    ></slide-verify>
+                    <div class="verify-info">{{msg}}</div>
+                </div>
+            </el-form-item>
             <el-form-item v-model="activeName" @click="handleClick">
                 <el-button style="width: 100%" type="primary" @click="onSubmit('form')">
                     {{$t('language.login')}}
                 </el-button>
             </el-form-item>
         </el-form>
+
         <!--  底部  -->
         <div class="el-login-footer">
             <span>Copyright © JavaEE Group All Rights Reserved.</span>
@@ -42,10 +60,25 @@
 </template>
 
 <script>
+    import a from "../assets/verify/1.jpg"	//	如果使用网络图片资源就无需引入
+    import b from "../assets/verify/2.jpg"
+    import c from "../assets/verify/3.jpg"
+    import d from "../assets/verify/4.jpg"
+    import e from "../assets/verify/5.jpg"
+    import f from "../assets/verify/6.jpg"
+    import g from "../assets/verify/7.jpg"
+    import h from "../assets/verify/8.jpg"
+
     export default {
         name: "Login",
         data() {
             return {
+                msg: "",
+                bgimgs: [a, b, c, d, e, f, g, h,],
+                // bgimgs:[],	//	如果使用网络图片资源就用该值
+                text: '',
+
+                //国际化
                 value: "zh-CN",
                 lang: "zh-CN",
                 activeName: "first",
@@ -63,6 +96,8 @@
                         label: "繁體"
                     }
                 ],
+
+
                 form: {
                     username: '',
                     password: ''
@@ -79,41 +114,50 @@
             }
         },
         methods: {
-            handleClick() {
+            onSuccess() {
+                this.msg = this.$t('language.code_info_1');
             },
-            // 切换语言
-            changeLangEvent(value) {
-                switch (value) {
-                    case "zh-CN":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    case "en-US":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    case "zh-HK":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    default:
-                        break;
-                }
+            onFail() {
+                this.msg = this.$t('language.code_info_2');
             },
-            onSubmit(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
+            onRefresh() {
+                this.msg = "";
+            },
+        },
+        handleClick() {
+        },
+        // 切换语言
+        changeLangEvent(value) {
+            switch (value) {
+                case "zh-CN":
+                    this.lang = value;
+                    this.$i18n.locale = this.lang; //关键语句
+                    break;
+                case "en-US":
+                    this.lang = value;
+                    this.$i18n.locale = this.lang; //关键语句
+                    break;
+                case "zh-HK":
+                    this.lang = value;
+                    this.$i18n.locale = this.lang; //关键语句
+                    break;
+                default:
+                    break;
+            }
+        },
+        onSubmit(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
                         this.$router.push("/main");
-                    } else {
-                        this.$message({
-                            message: this.$t('language.login_error'),
-                            type: 'warning'
-                        });
-                        return false;
-                    }
-                });
-            },
-        }
+                } else {
+                    this.$message({
+                        message: this.$t('language.login_error'),
+                        type: 'warning'
+                    });
+                    return false;
+                }
+            });
+        },
     }
 </script>
 
@@ -136,7 +180,7 @@
     .login-form {
         border-radius: 6px;
         background: #ffffff;
-        width: 250px;
+        width: 300px;
         padding: 25px 25px 5px 25px;
         box-shadow: 0 0 35px darkblue;
 
@@ -155,7 +199,6 @@
         }
 
         .el-button {
-
         }
     }
 
@@ -164,7 +207,8 @@
         top: 0;
         width: 100%;
         text-align: right;
-        .el-select{
+
+        .el-select {
             width: 100px;
         }
     }
@@ -180,5 +224,12 @@
         font-family: Arial;
         font-size: 12px;
         letter-spacing: 1px;
+    }
+
+    .verify-info {
+        text-align: center;
+        color: black;
+        font-family: Arial;
+        font-size: 13px;
     }
 </style>
