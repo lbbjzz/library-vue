@@ -1,7 +1,7 @@
 <template>
-    <div class="login">
+    <div class="register">
         <!--  顶部国际化组件-->
-        <div class="el-login-header">
+        <div class="el-register-header">
             <el-select
                     v-model="value"
                     @change="changeLangEvent(value)">
@@ -15,8 +15,14 @@
         </div>
 
         <!--        登陆主体-->
-        <el-form ref="form" :model="form" class="login-form" :rules="rules">
+        <el-form ref="form" :model="form" class="register-form" :rules="rules">
             <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
+            <el-form-item prop="email">
+                <el-input type="email" v-model="form.email" auto-complete="off"
+                          :placeholder="$t('language.email')">
+                    <i slot="prefix" class="el-icon-message"></i>
+                </el-input>
+            </el-form-item>
             <el-form-item prop="username">
                 <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
                     <i slot="prefix" class="el-icon-user input-icon"></i>
@@ -45,19 +51,14 @@
                 </div>
             </el-form-item>
             <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%" type="primary" @click="onLogin('form')">
-                    {{$t('language.login')}}
-                </el-button>
-            </el-form-item>
-            <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">
+                <el-button style="width: 100%" type="primary" @click="onRegister('form')">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
         </el-form>
 
         <!--  底部  -->
-        <div class="el-login-footer">
+        <div class="el-register-footer">
             <span>Copyright © JavaEE Group All Rights Reserved.</span>
         </div>
     </div>
@@ -74,7 +75,7 @@
     import h from "../assets/verify/8.jpg"
 
     export default {
-        name: "Login",
+        name: "Register",
         data() {
             return {
                 msg: "",
@@ -101,11 +102,15 @@
                 ],
 
                 form: {
+                    email: '',
                     username: '',
                     password: ''
                 },
 
                 rules: {
+                    email: [
+                        {required: true, message: this.$t('language.emailBox_error'), trigger: 'blur'},
+                    ],
                     username: [
                         {required: true, message: this.$t('language.userBox_error'), trigger: 'blur'},
                     ],
@@ -146,32 +151,29 @@
                         break;
                 }
             },
-            onLogin(formName) {
+            onRegister(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$message({
-                            message: this.$t('language.login_success'),
+                            message: this.$t('language.register_success'),
                             type: 'success'
                         });
-                        this.$router.push("/main");
+                        this.$router.push("/login");
                     } else {
                         this.$message({
-                            message: this.$t('language.login_error'),
+                            message: this.$t('language.register_error'),
                             type: 'warning'
                         });
                         return false;
                     }
                 });
             },
-            onRegister(formName) {
-                this.$router.push("/register");
-            },
         }
     }
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-    .login {
+    .register {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -186,7 +188,7 @@
         color: #707070;
     }
 
-    .login-form {
+    .register-form {
         border-radius: 6px;
         background: #ffffff;
         width: 300px;
@@ -211,7 +213,7 @@
         }
     }
 
-    .el-login-header {
+    .el-register-header {
         position: fixed;
         top: 0;
         width: 100%;
@@ -222,7 +224,7 @@
         }
     }
 
-    .el-login-footer {
+    .el-register-footer {
         height: 40px;
         line-height: 40px;
         position: fixed;
