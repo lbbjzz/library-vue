@@ -64,14 +64,14 @@
 </template>
 
 <script>
-    import a from "../assets/verify/1.jpg"	//	如果使用网络图片资源就无需引入
-    import b from "../assets/verify/2.jpg"
-    import c from "../assets/verify/3.jpg"
-    import d from "../assets/verify/4.jpg"
-    import e from "../assets/verify/5.jpg"
-    import f from "../assets/verify/6.jpg"
-    import g from "../assets/verify/7.jpg"
-    import h from "../assets/verify/8.jpg"
+    import a from "../../assets/verify/1.jpg"	//	如果使用网络图片资源就无需引入
+    import b from "../../assets/verify/2.jpg"
+    import c from "../../assets/verify/3.jpg"
+    import d from "../../assets/verify/4.jpg"
+    import e from "../../assets/verify/5.jpg"
+    import f from "../../assets/verify/6.jpg"
+    import g from "../../assets/verify/7.jpg"
+    import h from "../../assets/verify/8.jpg"
 
     export default {
         name: "Login",
@@ -177,7 +177,7 @@
         align-items: center;
         height: 100%;
         background-size: cover;
-        background-image: url("../assets/login_background.jpg");
+        background-image: url("../../assets/login_background.jpg");
     }
 
     .title {
