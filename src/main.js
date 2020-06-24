@@ -4,26 +4,26 @@ import router from './router'
 import store from './store'
 import './plugins/element.js'
 import ElementUI from 'element-ui'
-import axios from 'axios'//引入axios
+import axios from 'axios'// 引入axios
 import VueI18n from 'vue-i18n'
-import SlideVerify from 'vue-monoplasty-slide-verify';
+import SlideVerify from 'vue-monoplasty-slide-verify'
 
-/*---------挂载全局使用-----------*/
+/* ---------挂载全局使用----------- */
 Vue.use(ElementUI)
 Vue.use(VueI18n)
-Vue.use(SlideVerify);
+Vue.use(SlideVerify)
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 // /*---------使用语言包-----------*/
 const i18n = new VueI18n({
-  locale: 'zh-CN',    // 语言标识
+  locale: 'zh-CN', // 语言标识
   messages: {
-    'zh-CN': require('./lang/zh-CN'),   // 中文语言包
-    'en-US': require('./lang/en-US'),   // 英文语言包
-    'zh-HK': require('./lang/zh-HK')     // 繁体字语言包
-  },
+    'zh-CN': require('./lang/zh-CN'), // 中文语言包
+    'en-US': require('./lang/en-US'), // 英文语言包
+    'zh-HK': require('./lang/zh-HK') // 繁体字语言包
+  }
 })
 
 new Vue({

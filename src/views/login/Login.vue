@@ -64,110 +64,110 @@
 </template>
 
 <script>
-    import a from "../../assets/verify/1.jpg"	//	如果使用网络图片资源就无需引入
-    import b from "../../assets/verify/2.jpg"
-    import c from "../../assets/verify/3.jpg"
-    import d from "../../assets/verify/4.jpg"
-    import e from "../../assets/verify/5.jpg"
-    import f from "../../assets/verify/6.jpg"
-    import g from "../../assets/verify/7.jpg"
-    import h from "../../assets/verify/8.jpg"
+import a from '../../assets/verify/1.jpg'	//	如果使用网络图片资源就无需引入
+import b from '../../assets/verify/2.jpg'
+import c from '../../assets/verify/3.jpg'
+import d from '../../assets/verify/4.jpg'
+import e from '../../assets/verify/5.jpg'
+import f from '../../assets/verify/6.jpg'
+import g from '../../assets/verify/7.jpg'
+import h from '../../assets/verify/8.jpg'
 
-    export default {
-        name: "Login",
-        data() {
-            return {
-                msg: "",
-                bgimgs: [a, b, c, d, e, f, g, h,],
-                text: '',
+export default {
+  name: 'Login',
+  data () {
+    return {
+      msg: '',
+      bgimgs: [a, b, c, d, e, f, g, h],
+      text: '',
 
-                //国际化
-                value: "zh-CN",
-                lang: "zh-CN",
-                activeName: "first",
-                options: [
-                    {
-                        value: "zh-CN",
-                        label: "中文"
-                    },
-                    {
-                        value: "en-US",
-                        label: "English"
-                    },
-                    {
-                        value: "zh-HK",
-                        label: "繁體"
-                    }
-                ],
-
-                form: {
-                    username: '',
-                    password: ''
-                },
-
-                rules: {
-                    username: [
-                        {required: true, message: this.$t('language.userBox_error'), trigger: 'blur'},
-                    ],
-                    password: [
-                        {required: true, message: this.$t('language.passwordBox_error'), trigger: 'blur'},
-                    ],
-                }
-            }
+      // 国际化
+      value: 'zh-CN',
+      lang: 'zh-CN',
+      activeName: 'first',
+      options: [
+        {
+          value: 'zh-CN',
+          label: '中文'
         },
-        methods: {
-            onSuccess() {
-                this.msg = this.$t('language.code_info_1');
-            },
-            onFail() {
-                this.msg = this.$t('language.code_info_2');
-            },
-            onRefresh() {
-                this.msg = "";
-            },
-            handleClick() {
-            },
-            // 切换语言
-            changeLangEvent(value) {
-                switch (value) {
-                    case "zh-CN":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    case "en-US":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    case "zh-HK":
-                        this.lang = value;
-                        this.$i18n.locale = this.lang; //关键语句
-                        break;
-                    default:
-                        break;
-                }
-            },
-            onLogin(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.$message({
-                            message: this.$t('language.login_success'),
-                            type: 'success'
-                        });
-                        this.$router.push("/main");
-                    } else {
-                        this.$message({
-                            message: this.$t('language.login_error'),
-                            type: 'warning'
-                        });
-                        return false;
-                    }
-                });
-            },
-            onRegister(formName) {
-                this.$router.push("/register");
-            },
+        {
+          value: 'en-US',
+          label: 'English'
+        },
+        {
+          value: 'zh-HK',
+          label: '繁體'
         }
+      ],
+
+      form: {
+        username: '',
+        password: ''
+      },
+
+      rules: {
+        username: [
+          { required: true, message: this.$t('language.userBox_error'), trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: this.$t('language.passwordBox_error'), trigger: 'blur' }
+        ]
+      }
     }
+  },
+  methods: {
+    onSuccess () {
+      this.msg = this.$t('language.code_info_1')
+    },
+    onFail () {
+      this.msg = this.$t('language.code_info_2')
+    },
+    onRefresh () {
+      this.msg = ''
+    },
+    handleClick () {
+    },
+    // 切换语言
+    changeLangEvent (value) {
+      switch (value) {
+        case 'zh-CN':
+          this.lang = value
+          this.$i18n.locale = this.lang // 关键语句
+          break
+        case 'en-US':
+          this.lang = value
+          this.$i18n.locale = this.lang // 关键语句
+          break
+        case 'zh-HK':
+          this.lang = value
+          this.$i18n.locale = this.lang // 关键语句
+          break
+        default:
+          break
+      }
+    },
+    onLogin (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$message({
+            message: this.$t('language.login_success'),
+            type: 'success'
+          })
+          this.$router.push('/main')
+        } else {
+          this.$message({
+            message: this.$t('language.login_error'),
+            type: 'warning'
+          })
+          return false
+        }
+      })
+    },
+    onRegister (formName) {
+      this.$router.push('/register')
+    }
+  }
+}
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
