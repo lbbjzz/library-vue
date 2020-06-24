@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import a from '../../assets/verify/1.jpg'	//	如果使用网络图片资源就无需引入
+import a from '../../assets/verify/1.jpg'
 import b from '../../assets/verify/2.jpg'
 import c from '../../assets/verify/3.jpg'
 import d from '../../assets/verify/4.jpg'
@@ -109,13 +109,25 @@ export default {
 
       rules: {
         email: [
-          { required: true, message: this.$t('language.emailBox_error'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('language.emailBox_error'),
+            trigger: 'blur'
+          }
         ],
         username: [
-          { required: true, message: this.$t('language.userBox_error'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('language.userBox_error'),
+            trigger: 'blur'
+          }
         ],
         password: [
-          { required: true, message: this.$t('language.passwordBox_error'), trigger: 'blur' }
+          {
+            required: true,
+            message: this.$t('language.passwordBox_error'),
+            trigger: 'blur'
+          }
         ]
       }
     }
