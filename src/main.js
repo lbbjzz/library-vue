@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import './assets/scss/reset.scss'
 import './plugins/element.js'
 import ElementUI from 'element-ui'
 import axios from 'axios'// 引入axios

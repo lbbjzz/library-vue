@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -17,6 +18,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/register/Register')
+  },
+  {
+    path: '/main',
+    name: 'Main',
+    component: () => import('../views/Main')
   }
 ]
 
