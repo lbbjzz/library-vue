@@ -1,10 +1,13 @@
 <template>
     <header>
         <div class="l-content">
-            <el-button plain icon="el-icon-menu" size="mini"></el-button>
+            <el-button plain icon="el-icon-menu" size="mini" @click="collapseMenu"></el-button>
             <!--            面包屑-->
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item >首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="current.path" v-if="current">
+                    {{ current.label }}
+                </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="r-content">
@@ -20,10 +23,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
+  computed: {
+    ...mapState({
+      current: state => state.tab.currentMenu
+    })
+  },
   data () {
     return {
       userImag: require('../assets/images/user.png')
+    }
+  },
+  methods: {
+    collapseMenu () {
+      this.$store.commit('collapseMenu')
     }
   }
 }
@@ -40,7 +54,8 @@ export default {
     .l-content {
         display: flex;
         align-items: center;
-        .el-button{
+
+        .el-button {
             margin-right: 20px;
         }
     }
@@ -49,6 +64,24 @@ export default {
         .user {
             width: 50px;
             height: 50px;
+        }
+        .el-dropdown-link{
+            margin-right: 5px;
+        }
+    }
+</style>
+
+<style lang="scss">
+    .el-breadcrumb__item {
+        .el-breadcrumb__inner {
+            color: #666666;
+            font-weight: normal;
+        }
+
+        &:last-child {
+            .el-breadcrumb__inner {
+                color: #ffffff;
+            }
         }
     }
 </style>

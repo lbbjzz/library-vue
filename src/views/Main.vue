@@ -1,14 +1,16 @@
 <template>
     <div class="container" style="height: 100vh">
         <el-container>
-            <el-aside width="200px">
+            <el-aside width="auto">
                 <Aside></Aside>
             </el-aside>
             <el-container>
                 <el-header>
                     <Header></Header>
                 </el-header>
-                <el-main>Main</el-main>
+                <el-main>
+                    <router-view />
+                </el-main>
             </el-container>
         </el-container>
     </div>
@@ -28,6 +30,6 @@ export default {
 
 <style lang="scss" scoped>
     .el-header{
-        background-color: #33CCFF;
+        background-color: #888888;
     }
 </style>

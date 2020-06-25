@@ -28,32 +28,32 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
-<!--            <el-form-item @click="handleClick">-->
-<!--                <div class="login-code">-->
-<!--                    <slide-verify-->
-<!--                            :l="43"-->
-<!--                            :r="10"-->
-<!--                            :w="305"-->
-<!--                            :h="190"-->
-<!--                            :imgs="bgimgs"-->
-<!--                            @success="onSuccess"-->
-<!--                            @fail="onFail"-->
-<!--                            @refresh="onRefresh"-->
-<!--                            :slider-text="text"-->
-<!--                    ></slide-verify>-->
-<!--                    <div class="verify-info">{{msg}}</div>-->
-<!--                </div>-->
-<!--            </el-form-item>-->
+            <el-form-item @click="handleClick">
+                <div class="login-code">
+                    <slide-verify
+                            :l="43"
+                            :r="10"
+                            :w="305"
+                            :h="190"
+                            :imgs="bgimgs"
+                            @success="onSuccess"
+                            @fail="onFail"
+                            @refresh="onRefresh"
+                            :slider-text="text"
+                    ></slide-verify>
+                    <div class="verify-info">{{msg}}</div>
+                </div>
+            </el-form-item>
             <el-form-item v-model="activeName" @click="handleClick">
                 <el-button style="width: 100%" type="primary" @click="onLogin('form')">
                     {{$t('language.login')}}
                 </el-button>
             </el-form-item>
-            <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">
-                    {{$t('language.register')}}
-                </el-button>
-            </el-form-item>
+<!--            <el-form-item v-model="activeName" @click="handleClick">-->
+<!--                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">-->
+<!--                    {{$t('language.register')}}-->
+<!--                </el-button>-->
+<!--            </el-form-item>-->
         </el-form>
 
         <!--  底部  -->
@@ -64,23 +64,23 @@
 </template>
 
 <script>
-// import a from '../../assets/verify/1.jpg'
-// import b from '../../assets/verify/2.jpg'
-// import c from '../../assets/verify/3.jpg'
-// import d from '../../assets/verify/4.jpg'
-// import e from '../../assets/verify/5.jpg'
-// import f from '../../assets/verify/6.jpg'
-// import g from '../../assets/verify/7.jpg'
-// import h from '../../assets/verify/8.jpg'
+import a from '../../assets/verify/1.jpg'
+import b from '../../assets/verify/2.jpg'
+import c from '../../assets/verify/3.jpg'
+import d from '../../assets/verify/4.jpg'
+import e from '../../assets/verify/5.jpg'
+import f from '../../assets/verify/6.jpg'
+import g from '../../assets/verify/7.jpg'
+import h from '../../assets/verify/8.jpg'
 
 export default {
   name: 'Login',
   data () {
     return {
       // 验证码
-      // msg: '',
-      // bgimgs: [a, b, c, d, e, f, g, h],
-      // text: '',
+      msg: '',
+      bgimgs: [a, b, c, d, e, f, g, h],
+      text: '',
 
       // 国际化
       value: 'zh-CN',
@@ -171,10 +171,10 @@ export default {
           return false
         }
       })
-    },
-    onRegister (formName) {
-      this.$router.push('/register')
     }
+    // onRegister (formName) {
+    //   this.$router.push('/register')
+    // }
   }
 }
 </script>
