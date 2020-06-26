@@ -4,7 +4,7 @@
             <el-button plain icon="el-icon-menu" size="mini" @click="collapseMenu"></el-button>
             <!--            面包屑-->
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item :to="{ path: '/main' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
                 <el-breadcrumb-item :to="current.path" v-if="current">
                     {{ current.label }}
                 </el-breadcrumb-item>
@@ -12,10 +12,10 @@
         </div>
         <div class="r-content">
             <el-dropdown trigger="click" size="mini">
-                <span class="el-dropdown-link"><img :src="userImag" class="user"/></span>
+                <span class="el-dropdown-link"><img :src="userImg" class="user"/></span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item>退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -32,7 +32,7 @@ export default {
   },
   data () {
     return {
-      userImag: require('../assets/images/user.png')
+      userImg: require('../assets/images/user.png')
     }
   },
   methods: {
@@ -80,7 +80,7 @@ export default {
 
         &:last-child {
             .el-breadcrumb__inner {
-                color: #ffffff;
+                color: black;
             }
         }
     }

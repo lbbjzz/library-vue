@@ -7,25 +7,25 @@ const routes = [
   {
     path: '/',
     name: 'Index',
-    redirect: { name: 'login' }
+    redirect: { name: 'Login' }
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('../views/login/Login')
   },
-  // {
-  //   path: '/register',
-  //   name: 'Register',
-  //   component: () => import('../views/register/Register')
-  // },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/register/Register')
+  },
   {
     path: '/main',
     name: 'Main',
     component: () => import('../views/Main'),
     children: [
       {
-        path: '/',
+        path: '/home',
         name: 'home',
         component: () => import('../views/Home/Home')
       },
