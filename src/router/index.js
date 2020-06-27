@@ -30,14 +30,24 @@ const routes = [
         component: () => import('../views/Home/Home')
       },
       {
-        path: '/book',
-        name: 'book',
-        component: () => import('../views/BookManage/Bookmanage')
+        path: '/bookborrow',
+        name: 'bookborrow',
+        component: () => import('../views/Book/Bookborrow')
+      },
+      {
+        path: '/bookmanage',
+        name: 'bookmanage',
+        component: () => import('../views/Book/Bookmanage')
       },
       {
         path: '/user',
         name: 'user',
         component: () => import('../views/UserManage/Usermanage')
+      },
+      {
+        path: '/userinfo',
+        name: 'userinfo',
+        component: () => import('../views/UserInfo/UserInfo')
       }
     ]
   }

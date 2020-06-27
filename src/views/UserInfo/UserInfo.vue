@@ -1,12 +1,12 @@
 <template>
-    <div>
-        Book
-    </div>
+  <div>
+    userinfo
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Bookmanage'
+  name: 'UserInfo'
 }
 </script>
 

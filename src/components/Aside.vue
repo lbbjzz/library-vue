@@ -1,30 +1,30 @@
 <template>
-    <el-menu
-            :collapse="isCollapse"
-            default-active="2"
-            class="el-menu-vertical-demo"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            style="height: 100vh;">
-        <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path" @click="clickMenu(item)">
-            <i :class="'el-icon-' + item.icon"></i>
-            <span slot="title">{{ item.label }}</span>
+  <el-menu
+    :collapse="isCollapse"
+    default-active="2"
+    class="el-menu-vertical-demo"
+    background-color="#545c64"
+    text-color="#fff"
+    active-text-color="#ffd04b"
+    style="height: 100vh;">
+    <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path" @click="clickMenu(item)">
+      <i :class="'el-icon-' + item.icon"></i>
+      <span slot="title">{{ item.label }}</span>
+    </el-menu-item>
+    <el-submenu :index="item.label" v-for="(item, index) in hasChildren" :key="index">
+      <template slot="title">
+        <i :class="'el-icon-' + item.icon"></i>
+        <span slot="title">{{ item.label }}</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item :index="subItem.path" v-for="(subItem, subIndex) in item.children" :key="subIndex"
+                      @click="clickMenu(subItem)">
+          <i :class="'el-icon-' + subItem.icon"></i>
+          <span slot="title">{{ subItem.label }}</span>
         </el-menu-item>
-        <el-submenu :index="item.label" v-for="(item, index) in hasChildren" :key="index">
-            <template slot="title">
-                <i :class="'el-icon-' + item.icon"></i>
-                <span slot="title">{{ item.label }}</span>
-            </template>
-            <el-menu-item-group>
-                <el-menu-item :index="subItem.path" v-for="(subItem, subIndex) in item.children" :key="subIndex"
-                              @click="clickMenu(subItem)">
-                    <i :class="'el-icon-' + subItem.icon"></i>
-                    <span slot="title">{{ subItem.label }}</span>
-                </el-menu-item>
-            </el-menu-item-group>
-        </el-submenu>
-    </el-menu>
+      </el-menu-item-group>
+    </el-submenu>
+  </el-menu>
 
 </template>
 
@@ -51,32 +51,32 @@ export default {
           icon: 's-home'
         },
         {
-          path: '/book',
-          name: 'book',
-          label: '图书管理',
-          icon: 'reading'
-        },
-        {
           path: '/user',
           name: 'user',
           label: '用户管理',
           icon: 'user'
         },
         {
-          label: '其他',
-          icon: 'user',
+          path: '/userinfo',
+          name: 'userinfo',
+          label: '个人中心',
+          icon: 'user'
+        },
+        {
+          label: '图书',
+          icon: 'reading',
           children: [
             {
-              // path: '/page1',
-              name: 'page1',
-              label: '页面1',
-              icon: 'setting'
+              path: '/bookborrow',
+              name: 'bookborrow',
+              label: '图书借阅',
+              icon: 'reading'
             },
             {
-              // path: '/page2',
-              name: 'page2',
-              label: '页面2',
-              icon: 'setting'
+              path: '/bookmanage',
+              name: 'bookmanage',
+              label: '图书管理',
+              icon: 'reading'
             }
           ]
         }
@@ -93,12 +93,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .el-menu {
-        border: none;
-    }
+  .el-menu {
+    border: none;
+  }
 
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 200px;
-        min-height: 400px;
-    }
+  .el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+  }
 </style>
