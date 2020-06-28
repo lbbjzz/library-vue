@@ -155,20 +155,34 @@ export default {
           break
       }
     },
-    onLogin (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.$message({
-            message: this.$t('language.login_success'),
-            type: 'success'
-          })
-          this.$router.push('/home')
+    // onLogin (formName) {
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       this.$message({
+    //         message: this.$t('language.login_success'),
+    //         type: 'success'
+    //       })
+    //     } else {
+    //       this.$message({
+    //         message: this.$t('language.login_error'),
+    //         type: 'warning'
+    //       })
+    //       return false
+    //     }
+    //   })
+    // },
+    onLogin () {
+      this.$http.post('api/permission/getMenu', this.form).then(res => {
+        res = res.data
+        // console.log(res)
+        if (res.code === 20000) {
+          this.$store.commit('clearMenu')
+          this.$store.commit('setMenu', res.data.menu)
+          //   this.$store.commit('setToken', res.data.token)
+          this.$store.commit('addMenu', this.$router)
+          this.$router.push({ name: 'home' })
         } else {
-          this.$message({
-            message: this.$t('language.login_error'),
-            type: 'warning'
-          })
-          return false
+          this.$message.warning(res.data.message)
         }
       })
     },

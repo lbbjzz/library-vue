@@ -32,13 +32,16 @@
 export default {
   computed: {
     noChildren () {
-      return this.asideMenu.filter(item => !item.children)
+      return this.menu.filter(item => !item.children)
     },
     hasChildren () {
-      return this.asideMenu.filter(item => item.children)
+      return this.menu.filter(item => item.children)
     },
     isCollapse () {
       return this.$store.state.tab.isCollapse
+    },
+    menu () {
+      return this.$store.state.tab.menu
     }
   },
   data () {

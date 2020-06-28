@@ -18,38 +18,6 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/register/Register')
-  },
-  {
-    path: '/main',
-    name: 'Main',
-    component: () => import('../views/Main'),
-    children: [
-      {
-        path: '/home',
-        name: 'home',
-        component: () => import('../views/Home/Home')
-      },
-      {
-        path: '/bookborrow',
-        name: 'bookborrow',
-        component: () => import('../views/Book/Bookborrow')
-      },
-      {
-        path: '/bookmanage',
-        name: 'bookmanage',
-        component: () => import('../views/Book/Bookmanage')
-      },
-      {
-        path: '/user',
-        name: 'user',
-        component: () => import('../views/UserManage/Usermanage')
-      },
-      {
-        path: '/userinfo',
-        name: 'userinfo',
-        component: () => import('../views/UserInfo/UserInfo')
-      }
-    ]
   }
 ]
 
