@@ -121,12 +121,24 @@ export default {
             required: true,
             message: this.$t('language.userBox_error'),
             trigger: 'blur'
+          },
+          {
+            min: 3,
+            max: 8,
+            message: '长度在3-8个字符',
+            trigger: 'blur'
           }
         ],
         password: [
           {
             required: true,
             message: this.$t('language.passwordBox_error'),
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            max: 18,
+            message: '长度在6-18个字符',
             trigger: 'blur'
           }
         ]

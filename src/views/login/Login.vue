@@ -15,7 +15,7 @@
     </div>
 
     <!--        登陆主体-->
-    <el-form ref="form" :model="form" class="login-form" :rules="rules">
+    <el-form ref="loginFormRef" :model="form" class="login-form" :rules="rules">
       <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
       <el-form-item prop="username">
         <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
@@ -28,6 +28,7 @@
           <i slot="prefix" class="el-icon-lock input-icon"></i>
         </el-input>
       </el-form-item>
+      <!--      验证码-->
       <el-form-item @click="handleClick">
         <div class="login-code">
           <slide-verify
@@ -45,7 +46,7 @@
         </div>
       </el-form-item>
       <el-form-item v-model="activeName" @click="handleClick">
-        <el-button style="width: 100%" type="primary" @click="onLogin('form')">
+        <el-button style="width: 100%" type="primary" @click="onLogin">
           {{$t('language.login')}}
         </el-button>
       </el-form-item>
@@ -102,8 +103,8 @@ export default {
       ],
 
       form: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123'
       },
 
       rules: {
@@ -113,11 +114,23 @@ export default {
             message: this.$t('language.userBox_error'),
             trigger: 'blur'
           }
+          // {
+          //   min: 3,
+          //   max: 8,
+          //   message: '长度在3-8个字符',
+          //   trigger: 'blur'
+          // }
         ],
         password: [
           {
             required: true,
             message: this.$t('language.passwordBox_error'),
+            trigger: 'blur'
+          },
+          {
+            min: 3,
+            max: 16,
+            message: '长度在3-16个字符',
             trigger: 'blur'
           }
         ]
@@ -171,19 +184,29 @@ export default {
     //     }
     //   })
     // },
+    // onLogin () {
+    //   this.$http.post('api/permission/getMenu', this.form).then(res => {
+    //     res = res.data
+    //     // console.log(res)
+    //     if (res.code === 20000) {
+    //       this.$store.commit('clearMenu')
+    //       this.$store.commit('setMenu', res.data.menu)
+    //       //   this.$store.commit('setToken', res.data.token)
+    //       this.$store.commit('addMenu', this.$router)
+    //       this.$router.push({ name: 'home' })
+    //     } else {
+    //       this.$message.warning(res.data.message)
+    //     }
+    //   })
+    // },
     onLogin () {
-      this.$http.post('api/permission/getMenu', this.form).then(res => {
-        res = res.data
-        // console.log(res)
-        if (res.code === 20000) {
-          this.$store.commit('clearMenu')
-          this.$store.commit('setMenu', res.data.menu)
-          //   this.$store.commit('setToken', res.data.token)
-          this.$store.commit('addMenu', this.$router)
-          this.$router.push({ name: 'home' })
-        } else {
-          this.$message.warning(res.data.message)
+      this.$refs.loginFormRef.validate(async value => {
+        if (!value) return
+        const res = await this.$http.post('userLogin', this.form)
+        if (res.data.code !== 200) {
+          console.log(res.data.msg)
         }
+        console.log(res)
       })
     },
     onRegister (formName) {
