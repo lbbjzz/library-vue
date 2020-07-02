@@ -1,67 +1,67 @@
 <template>
-  <div class="login">
-    <!--  顶部国际化组件-->
-    <div class="el-login-header">
-      <el-select
-        v-model="value"
-        @change="changeLangEvent(value)">
-        <el-option
-          v-for="(item, index) in options"
-          :key="index"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-    </div>
-
-    <!--        登陆主体-->
-    <el-form ref="loginFormRef" :model="form" class="login-form" :rules="rules">
-      <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
-      <el-form-item prop="username">
-        <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
-          <i slot="prefix" class="el-icon-user input-icon"></i>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <el-input type="password" v-model="form.password" auto-complete="off"
-                  :placeholder="$t('language.passwordBox')">
-          <i slot="prefix" class="el-icon-lock input-icon"></i>
-        </el-input>
-      </el-form-item>
-      <!--      验证码-->
-      <el-form-item @click="handleClick">
-        <div class="login-code">
-          <slide-verify
-            :l="43"
-            :r="10"
-            :w="305"
-            :h="190"
-            :imgs="bgimgs"
-            @success="onSuccess"
-            @fail="onFail"
-            @refresh="onRefresh"
-            :slider-text="text"
-          ></slide-verify>
-          <div class="verify-info">{{msg}}</div>
+    <div class="login">
+        <!--  顶部国际化组件-->
+        <div class="el-login-header">
+            <el-select
+                    v-model="value"
+                    @change="changeLangEvent(value)">
+                <el-option
+                        v-for="(item, index) in options"
+                        :key="index"
+                        :label="item.label"
+                        :value="item.value"
+                ></el-option>
+            </el-select>
         </div>
-      </el-form-item>
-      <el-form-item v-model="activeName" @click="handleClick">
-        <el-button style="width: 100%" type="primary" @click="onLogin">
-          {{$t('language.login')}}
-        </el-button>
-      </el-form-item>
-      <el-form-item v-model="activeName" @click="handleClick">
-        <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">
-          {{$t('language.register')}}
-        </el-button>
-      </el-form-item>
-    </el-form>
 
-    <!--  底部  -->
-    <div class="el-login-footer">
-      <span>Copyright © JavaEE Group All Rights Reserved.</span>
+        <!--        登陆主体-->
+        <el-form ref="loginFormRef" :model="form" class="login-form" :rules="rules">
+            <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
+            <el-form-item prop="username">
+                <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
+                    <i slot="prefix" class="el-icon-user input-icon"></i>
+                </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+                <el-input type="password" v-model="form.password" auto-complete="off"
+                          :placeholder="$t('language.passwordBox')">
+                    <i slot="prefix" class="el-icon-lock input-icon"></i>
+                </el-input>
+            </el-form-item>
+            <!--      验证码-->
+            <el-form-item @click="handleClick">
+                <div class="login-code">
+                    <slide-verify
+                            :l="43"
+                            :r="10"
+                            :w="305"
+                            :h="190"
+                            :imgs="bgimgs"
+                            @success="onSuccess"
+                            @fail="onFail"
+                            @refresh="onRefresh"
+                            :slider-text="text"
+                    ></slide-verify>
+                    <div class="verify-info">{{msg}}</div>
+                </div>
+            </el-form-item>
+            <el-form-item v-model="activeName" @click="handleClick">
+                <el-button style="width: 100%" type="primary" @click="onLogin">
+                    {{$t('language.login')}}
+                </el-button>
+            </el-form-item>
+            <el-form-item v-model="activeName" @click="handleClick">
+                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">
+                    {{$t('language.register')}}
+                </el-button>
+            </el-form-item>
+        </el-form>
+
+        <!--  底部  -->
+        <div class="el-login-footer">
+            <span>Copyright © JavaEE Group All Rights Reserved.</span>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -204,9 +204,19 @@ export default {
         if (!value) return
         const res = await this.$http.post('userLogin', this.form)
         if (res.data.code !== 200) {
-          console.log(res.data.msg)
+          this.$message({
+            message: this.$t('language.login_error'),
+            type: 'warning'
+          })
+        } else {
+          this.$message({
+            message: this.$t('language.login_success'),
+            type: 'success'
+          })
+          console.log(res.data.data.username)
+          window.sessionStorage.setItem('username', res.data.data.username)
+          this.$router.push('/home')
         }
-        console.log(res)
       })
     },
     onRegister (formName) {
@@ -217,74 +227,74 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  .login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    background-size: cover;
-    background-image: url("../../assets/login_background.jpg");
-  }
-
-  .title {
-    margin: 0px auto 30px auto;
-    text-align: center;
-    color: #707070;
-  }
-
-  .login-form {
-    border-radius: 6px;
-    background: #ffffff;
-    width: 300px;
-    padding: 25px 25px 5px 25px;
-    box-shadow: 0 0 35px darkblue;
-
-    .el-input {
-      height: 38px;
-
-      input {
-        height: 38px;
-      }
+    .login {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background-size: cover;
+        background-image: url("../../assets/login_background.jpg");
     }
 
-    .input-icon {
-      height: 39px;
-      width: 14px;
-      margin-left: 2px;
+    .title {
+        margin: 0px auto 30px auto;
+        text-align: center;
+        color: #707070;
     }
 
-    .el-button {
+    .login-form {
+        border-radius: 6px;
+        background: #ffffff;
+        width: 300px;
+        padding: 25px 25px 5px 25px;
+        box-shadow: 0 0 35px darkblue;
+
+        .el-input {
+            height: 38px;
+
+            input {
+                height: 38px;
+            }
+        }
+
+        .input-icon {
+            height: 39px;
+            width: 14px;
+            margin-left: 2px;
+        }
+
+        .el-button {
+        }
     }
-  }
 
-  .el-login-header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    text-align: right;
+    .el-login-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        text-align: right;
 
-    .el-select {
-      width: 100px;
+        .el-select {
+            width: 100px;
+        }
     }
-  }
 
-  .el-login-footer {
-    height: 40px;
-    line-height: 40px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    color: #fff;
-    font-family: Arial;
-    font-size: 12px;
-    letter-spacing: 1px;
-  }
+    .el-login-footer {
+        height: 40px;
+        line-height: 40px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-family: Arial;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
 
-  .verify-info {
-    text-align: center;
-    font-family: Arial;
-    color: black;
-    font-size: 13px;
-  }
+    .verify-info {
+        text-align: center;
+        font-family: Arial;
+        color: black;
+        font-size: 13px;
+    }
 </style>

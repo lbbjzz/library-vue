@@ -41,6 +41,8 @@ export default {
       this.$store.commit('collapseMenu')
     },
     logOut () {
+      window.sessionStorage.clear()
+      this.$router.push('/login')
     }
   }
 }

@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-// import './assets/scss/reset.scss'
 import './plugins/element.js'
 import ElementUI from 'element-ui'
 import axios from 'axios'// 引入axios
@@ -22,6 +21,7 @@ Vue.use(SlideVerify)
 axios.defaults.baseURL = 'http://localhost:8001'
 
 Vue.prototype.$http = axios
+axios.defaults.withCredentials = true
 Vue.config.productionTip = false
 
 // /*---------使用语言包-----------*/
@@ -38,8 +38,5 @@ new Vue({
   i18n,
   router,
   store,
-  render: h => h(App),
-  created () {
-    store.commit('addMenu', router)
-  }
+  render: h => h(App)
 }).$mount('#app')
