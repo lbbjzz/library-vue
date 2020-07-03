@@ -17,13 +17,7 @@
         <!--        登陆主体-->
         <el-form ref="form" :model="form" class="register-form" :rules="rules">
             <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
-            <el-form-item prop="email">
-                <el-input type="email" v-model="form.email" auto-complete="off"
-                          :placeholder="$t('language.email')">
-                    <i slot="prefix" class="el-icon-message"></i>
-                </el-input>
-            </el-form-item>
-            <el-form-item prop="username">
+            <el-form-item prop="userName">
                 <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
                     <i slot="prefix" class="el-icon-user input-icon"></i>
                 </el-input>
@@ -34,22 +28,18 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
-<!--            <el-form-item @click="handleClick">-->
-<!--                <div class="login-code">-->
-<!--                    <slide-verify-->
-<!--                            :l="43"-->
-<!--                            :r="10"-->
-<!--                            :w="305"-->
-<!--                            :h="190"-->
-<!--                            :imgs="bgimgs"-->
-<!--                            @success="onSuccess"-->
-<!--                            @fail="onFail"-->
-<!--                            @refresh="onRefresh"-->
-<!--                            :slider-text="text"-->
-<!--                    ></slide-verify>-->
-<!--                    <div class="verify-info">{{msg}}</div>-->
-<!--                </div>-->
-<!--            </el-form-item>-->
+            <el-form-item prop="email">
+                <el-input type="email" v-model="form.email" auto-complete="off"
+                          :placeholder="$t('language.email')">
+                    <i slot="prefix" class="el-icon-message"></i>
+                </el-input>
+            </el-form-item>
+            <!--            <el-form-item prop="phone">-->
+            <!--                <el-input type="text" v-model="form.phone" auto-complete="off"-->
+            <!--                          :placeholder="$t('language.phone')">-->
+            <!--                    <i slot="prefix" class="el-icon-phone"></i>-->
+            <!--                </el-input>-->
+            <!--            </el-form-item>-->
             <el-form-item v-model="activeName" @click="handleClick">
                 <el-button style="width: 100%" type="primary" @click="onRegister('form')">
                     {{$t('language.register')}}
@@ -65,23 +55,11 @@
 </template>
 
 <script>
-// import a from '../../assets/verify/1.jpg'
-// import b from '../../assets/verify/2.jpg'
-// import c from '../../assets/verify/3.jpg'
-// import d from '../../assets/verify/4.jpg'
-// import e from '../../assets/verify/5.jpg'
-// import f from '../../assets/verify/6.jpg'
-// import g from '../../assets/verify/7.jpg'
-// import h from '../../assets/verify/8.jpg'
 
 export default {
   name: 'Register',
   data () {
     return {
-      // 验证码
-      // msg: '',
-      // bgimgs: [a, b, c, d, e, f, g, h],
-      // text: '',
 
       // 国际化
       value: 'zh-CN',
@@ -104,8 +82,9 @@ export default {
 
       form: {
         email: '',
-        username: '',
+        userName: '',
         password: ''
+        // phone: '',
       },
 
       rules: {
@@ -116,7 +95,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        username: [
+        userName: [
           {
             required: true,
             message: this.$t('language.userBox_error'),
@@ -139,6 +118,13 @@ export default {
             min: 6,
             max: 18,
             message: '长度在6-18个字符',
+            trigger: 'blur'
+          }
+        ],
+        phone: [
+          {
+            required: true,
+            message: this.$t('language.phoneBox_error'),
             trigger: 'blur'
           }
         ]

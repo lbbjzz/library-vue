@@ -1,11 +1,13 @@
 export const language = {
   title: '图书借阅管理系统',
   email: '邮箱',
+  phone: '联系方式',
   userBox: '账号',
   passwordBox: '密码',
   emailBox_error: '请输入邮箱！',
   userBox_error: '请输入账号！',
   passwordBox_error: '请输入密码！',
+  phoneBox_error: '请输入联系方式',
   login_success: '登录成功！',
   login_error: '登录失败！请输入正确的用户名或密码！',
   register_success: '注册成功！',

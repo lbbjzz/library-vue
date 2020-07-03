@@ -1,9 +1,11 @@
 export const language = {
   title: 'Book borrowing management system',
   email: 'Email',
+  phone: 'Phone',
   userBox: 'Username',
   passwordBox: 'Password',
   emailBox_error: 'Please Enter Your Email!',
+  phoneBox_error: 'Please Enter Your Phone Number!',
   userBox_error: 'Please Enter Your Username!',
   passwordBox_error: 'Please Enter Your Password',
   login_success: 'login Successfully!',

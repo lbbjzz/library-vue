@@ -1,107 +1,89 @@
 <template>
-  <div class="manage">
-    <el-dialog :title="operateType === 'add' ? '新增用户' : '更新用户'" :visible.sync="isShow">
-      <Form :formLabel="operateFormLabel" :form="operateForm" ref="form"></Form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="isShow = false">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
-      </div>
-    </el-dialog>
-    <div class="manage-header">
-      <el-button type="primary" @click="addUser">+ 新增</el-button>
-      <Form inline :formLabel="formLabel" :form="searchFrom">
-        <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>
-      </Form>
+    <div class="manage">
+        <div class="manage-header">
+            <Form inline :formLabel="formLabel" :form="searchFrom">
+                <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>
+            </Form>
+        </div>
+        <el-table
+                :data="tableData"
+                height="120%"
+                style="width: 100%" stripe>
+            <el-table-column
+                    prop="id"
+                    label="序号"
+                    width="50">
+            </el-table-column>
+            <el-table-column
+                    prop="cover"
+                    label="封面"
+                    width="150">
+                <template slot-scope="scope">
+                    <img :src="scope.row.cover" alt="" style="width: 80px;height:100px">
+                </template>
+            </el-table-column>
+            <el-table-column
+                    prop="bookName"
+                    label="书名"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="author"
+                    label="作者"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="pubHouse"
+                    label="出版社"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="pubDate"
+                    label="出版日期"
+                    width="120">
+            </el-table-column>
+            <el-table-column
+                    prop="classes"
+                    label="类别"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="price"
+                    label="价格"
+                    width="150">
+            </el-table-column>
+            <el-table-column
+                    prop="quantity"
+                    label="馆藏数量"
+                    width="130">
+            </el-table-column>
+            <el-table-column
+                    fixed="right"
+                    label="操作"
+                    width="200">
+                <template>
+                    <el-button size="mini" style="background-color:lightskyblue;">借阅</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-pagination
+                style="padding-top: 20px"
+                class="pager"
+                background layout="prev, pager, next"
+                page-size="5"
+                :total="total"
+                @current-change="page">
+        </el-pagination>
     </div>
-    <Table :tableData="tableData" :tableLabel="tableLabel" :config="config" @changePage="getList()" @edit="editUser"
-           @del="delUser"></Table>
-  </div>
 </template>
 
 <script>
-import Form from '../../components/Form'
-import Table from '../../components/Table'
 
 export default {
-  components: {
-    Form,
-    Table
-  },
   data () {
     return {
-      operateType: 'add',
-      isShow: false,
+      total: null,
       tableData: [],
-      tableLabel: [
-        {
-          prop: 'name',
-          label: '姓名'
-        },
-        {
-          prop: 'age',
-          label: '年龄'
-        },
-        {
-          prop: 'sexLabel',
-          label: '性别'
-        },
-        {
-          prop: 'birth',
-          label: '出生日期',
-          width: 200
-        },
-        {
-          prop: 'addr',
-          label: '地址',
-          width: 320
-        }
-      ],
-      config: {
-        page: 1,
-        total: 30,
-        loading: false
-      },
-      operateForm: {
-        name: '',
-        addr: '',
-        age: '',
-        birth: '',
-        sex: ''
-      },
-      operateFormLabel: [
-        {
-          model: 'name',
-          label: '姓名'
-        },
-        {
-          model: 'age',
-          label: '年龄'
-        },
-        {
-          model: 'sex',
-          label: '性别',
-          type: 'select',
-          opts: [
-            {
-              label: '男',
-              value: 1
-            },
-            {
-              label: '女',
-              value: 0
-            }
-          ]
-        },
-        {
-          model: 'birth',
-          label: '出生日期',
-          type: 'date'
-        },
-        {
-          model: 'addr',
-          label: '地址'
-        }
-      ],
       searchFrom: {
         keyword: ''
       },
@@ -114,89 +96,39 @@ export default {
     }
   },
   methods: {
-    getList (name = '') {
-      this.config.loading = true
-      // 搜索时，页码需要设置为1，才能正确返回数据，因为数据是从第一页开始返回的
-      // eslint-disable-next-line no-unused-expressions
-      name ? (this.config.page = 1) : ''
-      this.$http
-        .get('/api/user/getUser', {
-          params: {
-            page: this.config.page,
-            name
-          }
-        })
-        .then(res => {
-          this.tableData = res.data.list.map(item => {
-            item.sexLabel = item.sex === 0 ? '女' : '男'
-            return item
-          })
-          this.config.total = res.data.count
-          this.config.loading = false
-        })
-    },
-    addUser () {
-      this.operateForm = {}
-      this.operateType = 'add'
-      this.isShow = true
-    },
-    editUser (row) {
-      this.operateType = 'edit'
-      this.isShow = true
-      this.operateForm = row
-    },
-    confirm () {
-      if (this.operateType === 'edit') {
-        this.$http.post('/api/user/edit', this.operateForm).then(res => {
-          console.log(res.data)
-          this.isShow = false
-          this.getList()
-        })
-      } else {
-        this.$http.post('/api/user/add', this.operateForm).then(res => {
-          console.log(res.data)
-          this.isShow = false
-          this.getList()
-        })
-      }
-    },
-    delUser (row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+    page (currentPage) {
+      // alert(currentPage)
+      const _this = this
+      this.$http.get('/book/findAll/' + currentPage + '/5').then(function (resp) {
+        console.log(resp)
+        _this.tableData = resp.data.data
+        _this.total = resp.data.totalCount
       })
-        .then(() => {
-          const id = row.id
-          this.$http
-            .get('/api/user/del', {
-              params: {
-                id
-              }
-            })
-            .then(res => {
-              console.log(res.data)
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-              this.getList()
-            })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
     }
   },
   created () {
-    this.getList()
+    const _this = this
+    this.$http.get('/book/findAll/1/5').then(function (resp) {
+      console.log(resp)
+      _this.tableData = resp.data.data
+      _this.total = resp.data.totalCount
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import './src/assets/scss/common';
+    .manage {
+        height: 70%;
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+    }
+
+    .pager {
+        position: absolute;
+        right: 20px;
+    }
 </style>

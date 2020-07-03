@@ -29,29 +29,29 @@
                 </el-input>
             </el-form-item>
             <!--      验证码-->
-            <el-form-item @click="handleClick">
-                <div class="login-code">
-                    <slide-verify
-                            :l="43"
-                            :r="10"
-                            :w="305"
-                            :h="190"
-                            :imgs="bgimgs"
-                            @success="onSuccess"
-                            @fail="onFail"
-                            @refresh="onRefresh"
-                            :slider-text="text"
-                    ></slide-verify>
-                    <div class="verify-info">{{msg}}</div>
-                </div>
-            </el-form-item>
+<!--            <el-form-item @click="handleClick">-->
+<!--                <div class="login-code">-->
+<!--                    <slide-verify-->
+<!--                            :l="43"-->
+<!--                            :r="10"-->
+<!--                            :w="305"-->
+<!--                            :h="190"-->
+<!--                            :imgs="bgimgs"-->
+<!--                            @success="onSuccess"-->
+<!--                            @fail="onFail"-->
+<!--                            @refresh="onRefresh"-->
+<!--                            :slider-text="text"-->
+<!--                    ></slide-verify>-->
+<!--                    <div class="verify-info">{{msg}}</div>-->
+<!--                </div>-->
+<!--            </el-form-item>-->
             <el-form-item v-model="activeName" @click="handleClick">
                 <el-button style="width: 100%" type="primary" @click="onLogin">
                     {{$t('language.login')}}
                 </el-button>
             </el-form-item>
             <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister('form')">
+                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister()">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -65,23 +65,23 @@
 </template>
 
 <script>
-import a from '../../assets/verify/1.jpg'
-import b from '../../assets/verify/2.jpg'
-import c from '../../assets/verify/3.jpg'
-import d from '../../assets/verify/4.jpg'
-import e from '../../assets/verify/5.jpg'
-import f from '../../assets/verify/6.jpg'
-import g from '../../assets/verify/7.jpg'
-import h from '../../assets/verify/8.jpg'
+// import a from '../../assets/verify/1.jpg'
+// import b from '../../assets/verify/2.jpg'
+// import c from '../../assets/verify/3.jpg'
+// import d from '../../assets/verify/4.jpg'
+// import e from '../../assets/verify/5.jpg'
+// import f from '../../assets/verify/6.jpg'
+// import g from '../../assets/verify/7.jpg'
+// import h from '../../assets/verify/8.jpg'
 
 export default {
   name: 'Login',
   data () {
     return {
-      // 验证码
-      msg: '',
-      bgimgs: [a, b, c, d, e, f, g, h],
-      text: '',
+      // // 验证码
+      // msg: '',
+      // bgimgs: [a, b, c, d, e, f, g, h],
+      // text: '',
 
       // 国际化
       value: 'zh-CN',
@@ -168,37 +168,6 @@ export default {
           break
       }
     },
-    // onLogin (formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       this.$message({
-    //         message: this.$t('language.login_success'),
-    //         type: 'success'
-    //       })
-    //     } else {
-    //       this.$message({
-    //         message: this.$t('language.login_error'),
-    //         type: 'warning'
-    //       })
-    //       return false
-    //     }
-    //   })
-    // },
-    // onLogin () {
-    //   this.$http.post('api/permission/getMenu', this.form).then(res => {
-    //     res = res.data
-    //     // console.log(res)
-    //     if (res.code === 20000) {
-    //       this.$store.commit('clearMenu')
-    //       this.$store.commit('setMenu', res.data.menu)
-    //       //   this.$store.commit('setToken', res.data.token)
-    //       this.$store.commit('addMenu', this.$router)
-    //       this.$router.push({ name: 'home' })
-    //     } else {
-    //       this.$message.warning(res.data.message)
-    //     }
-    //   })
-    // },
     onLogin () {
       this.$refs.loginFormRef.validate(async value => {
         if (!value) return
@@ -215,14 +184,18 @@ export default {
           })
           console.log(res.data.data.username)
           window.sessionStorage.setItem('username', res.data.data.username)
-          this.$router.push('/home')
-          // this.$http.get('/api/book/finAll/1/5').then(resp => {
-          //   console.log(resp)
-          // })
+          // this.$store.commit('clearMenu')
+          // this.$store.commit('setMenu', res.data.data.menu)
+          // console.log(res.data.data.menu)
+          // this.$store.commit('addMenu', this.$router)
+          this.$router.push({ name: 'home' })
+          this.$http.get('/book/finAll/1/5').then(resp => {
+            console.log(resp)
+          })
         }
       })
     },
-    onRegister (formName) {
+    onRegister () {
       this.$router.push('/register')
     }
   }
