@@ -8,7 +8,7 @@ import axios from 'axios'// 引入axios
 // import http from '@/api/config'
 import VueI18n from 'vue-i18n'
 import SlideVerify from 'vue-monoplasty-slide-verify'
-import './mock'
+// import './mock'
 
 /* ---------挂载全局使用----------- */
 Vue.use(ElementUI)
@@ -21,7 +21,10 @@ Vue.use(SlideVerify)
 axios.defaults.baseURL = 'http://localhost:8001'
 
 Vue.prototype.$http = axios
+
+// 携带cookie信息
 axios.defaults.withCredentials = true
+
 Vue.config.productionTip = false
 
 // /*---------使用语言包-----------*/

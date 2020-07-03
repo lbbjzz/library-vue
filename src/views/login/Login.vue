@@ -202,7 +202,7 @@ export default {
     onLogin () {
       this.$refs.loginFormRef.validate(async value => {
         if (!value) return
-        const res = await this.$http.post('userLogin', this.form)
+        const res = await this.$http.post('/userLogin', this.form)
         if (res.data.code !== 200) {
           this.$message({
             message: this.$t('language.login_error'),
@@ -216,6 +216,9 @@ export default {
           console.log(res.data.data.username)
           window.sessionStorage.setItem('username', res.data.data.username)
           this.$router.push('/home')
+          // this.$http.get('/api/book/finAll/1/5').then(resp => {
+          //   console.log(resp)
+          // })
         }
       })
     },
