@@ -51,7 +51,7 @@
                 </el-button>
             </el-form-item>
             <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister()">
+                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -182,16 +182,13 @@ export default {
             message: this.$t('language.login_success'),
             type: 'success'
           })
-          console.log(res.data.data.username)
+          console.log(res)
           window.sessionStorage.setItem('username', res.data.data.username)
-          // this.$store.commit('clearMenu')
-          // this.$store.commit('setMenu', res.data.data.menu)
+          this.$store.commit('clearMenu')
+          this.$store.commit('setMenu', res.data.data.menu)
           // console.log(res.data.data.menu)
-          // this.$store.commit('addMenu', this.$router)
+          this.$store.commit('addMenu', this.$router)
           this.$router.push({ name: 'home' })
-          this.$http.get('/book/finAll/1/5').then(resp => {
-            console.log(resp)
-          })
         }
       })
     },

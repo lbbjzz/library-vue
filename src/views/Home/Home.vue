@@ -21,11 +21,11 @@
 
             <div class="graph">
                 <el-card shadow="hover" style="background-color:#F5FFFA">
-                    <echart :chartData="echartData.front" style="height: 260px" :isAxisChart="false"></echart>
+                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>
                     <p style="text-align: center;color:#778899">前端项目结构</p>
                 </el-card>
                 <el-card shadow="hover" style="background-color:#F5FFFA">
-                    <echart :chartData="echartData.back" style="height: 260px" :isAxisChart="false"></echart>
+                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>
                     <p style="text-align: center;color:#778899">后端项目结构</p>
                 </el-card>
             </div>
@@ -67,41 +67,63 @@ export default {
           icon: require('../../assets/images/spring.png')
         }
       ],
-      tableData: [],
+      tableData: [
+        {
+          function: 'ES6',
+          source: 1
+        },
+        {
+          function: 'ES6',
+          source: 1
+        },
+        {
+          function: 'ES6',
+          source: 1
+        },
+        {
+          function: 'ES6',
+          source: 1
+        },
+        {
+          function: 'ES6',
+          source: 1
+        }
+      ],
       tableLabel: {
-        function: '实现功能',
+        function: '模块',
         source: '参考资料'
       },
-      echartData: {
-        front: {
-          series: []
-        },
-        back: {
-          series: []
-        }
+      frontData: {
+        series: [
+          {
+            type: 'pie',
+            // roseType: 'angle',
+            data: [
+              {
+                value: 235,
+                name: '视频广告'
+              },
+              {
+                value: 274,
+                name: '联盟广告'
+              },
+              {
+                value: 310,
+                name: '邮件营销'
+              },
+              {
+                value: 335,
+                name: '直接访问'
+              },
+              {
+                value: 400,
+                name: '搜索引擎'
+              }
+            ]
+          }
+        ]
       }
     }
-  },
-  methods: {
-    getTableData () {
-      this.$http.get('/home/getData').then(res => {
-        res = res.data
-        this.tableData = res.data.tableData
-        console.log(res.data)
-        // 饼图
-        this.echartData.front.series.push({
-          data: res.data.frontData,
-          type: 'pie'
-        })
-        this.echartData.back.series.push({
-          data: res.data.backData,
-          type: 'pie'
-        })
-      })
-    }
-  },
-  created () {
-    this.getTableData()
   }
 }
 </script>

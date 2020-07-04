@@ -1,11 +1,12 @@
 <template>
     <div class="manage">
         <div class="manage-header">
-            <Form inline :formLabel="formLabel" :form="searchFrom">
-                <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>
-            </Form>
+<!--            <Form inline :formLabel="formLabel" :form="searchFrom">-->
+<!--                <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>-->
+<!--            </Form>-->
         </div>
         <el-table
+                v-loading="loading"
                 :data="tableData"
                 height="120%"
                 style="width: 100%" stripe>
