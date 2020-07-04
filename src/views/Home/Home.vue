@@ -10,10 +10,11 @@
                     </div>
                 </div>
             </el-card>
-            <el-card shadow="hover" style="height: 400px; margin-top: 20px">
-                <el-table :data="tableData">
+            <el-card shadow="hover" style="height: 100%; margin-top: 20px">
+                <el-table :data="tableData" height="100%" width="100%">
                     <el-table-column show-overflow-tooltip v-for="(val, key) in tableLabel" :key="key" :prop="key"
-                                     :label="val"></el-table-column>
+                                     :label="val">
+                    </el-table-column>
                 </el-table>
             </el-card>
         </el-col>
@@ -21,15 +22,17 @@
 
             <div class="graph">
                 <el-card shadow="hover" style="background-color:#F5FFFA">
-                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>
+<!--                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>-->
+                    <div id="frontchartPie" style=" width:100%;height:400px;"></div>
                     <p style="text-align: center;color:#778899">前端项目结构</p>
                 </el-card>
                 <el-card shadow="hover" style="background-color:#F5FFFA">
-                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>
+                    <!--                    <echart :chartData="frontData" style="height: 260px" :isAxisChart="false"></echart>-->
+                    <div id="backchartPie" style=" width:100%;height:400px;"></div>
                     <p style="text-align: center;color:#778899">后端项目结构</p>
                 </el-card>
             </div>
-            <div class="num" style="margin-top: 50px">
+            <div class="num" style="margin-top: 60px">
                 <el-card shadow="hover" v-for="item in countData" :key="item.value"
                          :body-style="{ display: 'flex', padding: 0 }"
                          style="background-color:#FFFAFA">
@@ -44,14 +47,18 @@
 </template>
 
 <script>
-import Echart from '../../components/ECharts'
+// import Echart from '../../components/ECharts'
+import * as echarts from 'echarts'
 
+require('echarts/theme/macarons')
 export default {
   components: {
-    Echart
+    // Echart
   },
   data () {
     return {
+      frontchartPie: null,
+      backchartPie: null,
       userImg: require('../../assets/images/user.png'),
       countData: [
         {
@@ -69,60 +76,134 @@ export default {
       ],
       tableData: [
         {
-          function: 'ES6',
-          source: 1
+          function: 'Vue.js',
+          source: 'https://cn.vuejs.org/'
         },
         {
-          function: 'ES6',
-          source: 1
+          function: 'ElementUI',
+          source: 'https://element.eleme.cn/'
         },
         {
-          function: 'ES6',
-          source: 1
+          function: 'npm & yarn',
+          source: 'https://classic.yarnpkg.com/zh-Hans/docs/migrating-from-npm/'
         },
         {
-          function: 'ES6',
-          source: 1
+          function: 'axios',
+          source: 'http://www.axios-js.com/zh-cn/docs/'
         },
         {
-          function: 'ES6',
-          source: 1
+          function: 'vue-i18n',
+          source: 'https://kazupon.github.io/vue-i18n/'
+        },
+        {
+          function: 'Mock.js',
+          source: 'http://mockjs.com/'
+        },
+        {
+          function: 'Apache EChart',
+          source: 'https://echarts.apache.org/zh/index.html'
+        },
+        {
+          function: 'Vue Router',
+          source: 'https://router.vuejs.org/zh/'
+        },
+        {
+          function: 'vue-monoplasty-slide-verify',
+          source: 'https://github.com/monoplasty/vue-monoplasty-slide-verify'
         }
       ],
       tableLabel: {
-        function: '模块',
+        function: '技术',
         source: '参考资料'
-      },
-      frontData: {
+      }
+    }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.drawPieChart()
+    })
+  },
+  methods: {
+    drawPieChart () {
+      const mytextStyle = {
+        color: '#333',
+        fontSize: 12
+      }
+      const mylabel = {
+        show: true,
+        position: 'right',
+        offset: [30, 40],
+        formatter: '{b} : {c} ({d}%)',
+        textStyle: mytextStyle
+      }
+      this.frontchartPie = echarts.init(document.getElementById('frontchartPie'), 'macarons')
+      this.frontchartPie.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}:{d}%'
+        },
         series: [
           {
             type: 'pie',
             // roseType: 'angle',
             data: [
               {
-                value: 235,
-                name: '视频广告'
+                name: 'Vue',
+                value: 74.9
               },
               {
-                value: 274,
-                name: '联盟广告'
+                name: 'JavaScript',
+                value: 17.5
               },
               {
-                value: 310,
-                name: '邮件营销'
+                name: 'CSS',
+                value: 5.2
               },
               {
-                value: 335,
-                name: '直接访问'
-              },
-              {
-                value: 400,
-                name: '搜索引擎'
+                name: 'HTML',
+                value: 2.4
               }
-            ]
+            ],
+            label: {
+              emphasis: mylabel
+            }
           }
         ]
-      }
+      })
+      this.backchartPie = echarts.init(document.getElementById('backchartPie'), 'macarons')
+      this.backchartPie.setOption({
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}:{d}%'
+        },
+        series: [
+          {
+            type: 'pie',
+            // roseType: 'angle',
+            data: [
+              {
+                name: 'Java',
+                value: 74.9
+              },
+              {
+                name: 'JavaScript',
+                value: 17.5
+              },
+              {
+                name: 'CSS',
+                value: 5.2
+              },
+              {
+                name: 'HTML',
+                value: 2.4
+              }
+            ],
+            label: {
+              emphasis: mylabel
+            }
+          }
+        ]
+      })
     }
   }
 }

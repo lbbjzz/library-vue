@@ -1,10 +1,6 @@
 <template>
     <div class="manage">
-        <div class="manage-header">
-            <el-button type="primary" @click="addUser">+ 新增</el-button>
-            <Form inline :formLabel="formLabel" :form="searchFrom">
-                <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>
-            </Form>
+        <div class="manageheader" style="height: 10%;background-color:lightskyblue;">
         </div>
         <el-table
                 :data="tableData"

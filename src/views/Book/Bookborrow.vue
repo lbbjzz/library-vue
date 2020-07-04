@@ -1,9 +1,6 @@
 <template>
     <div class="manage">
-        <div class="manage-header">
-<!--            <Form inline :formLabel="formLabel" :form="searchFrom">-->
-<!--                <el-button type="primary" @click="getList(searchFrom.keyword)">搜索</el-button>-->
-<!--            </Form>-->
+        <div class="borrowheader" style="height: 10%;background-color:lightskyblue;">
         </div>
         <el-table
                 v-loading="loading"
@@ -127,7 +124,6 @@ export default {
             align-items: flex-start;
         }
     }
-
     .pager {
         position: absolute;
         right: 20px;

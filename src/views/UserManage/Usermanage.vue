@@ -1,5 +1,7 @@
 <template>
     <div class="manage">
+        <div class="borrowheader" style="height: 10%;background-color:lightskyblue;">
+        </div>
         <el-table
                 :data="tableData"
                 height="120%"
