@@ -1,7 +1,12 @@
 <template>
     <div class="manage">
-        <div class="borrowheader" style="height: 10%;background-color:lightskyblue;">
-        </div>
+        <el-input
+                placeholder="可以输入书名或作者"
+                prefix-icon="el-icon-search"
+                v-model="searchContent"
+                style="width: 20%">
+        </el-input>
+        <el-button style="margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         <el-table
                 v-loading="loading"
                 :data="tableData"
@@ -80,6 +85,7 @@
 export default {
   data () {
     return {
+      searchContent: '',
       total: null,
       tableData: [],
       searchFrom: {
@@ -94,6 +100,19 @@ export default {
     }
   },
   methods: {
+    search () {
+      const _this = this
+      this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
+        console.log(resp.data)
+        const arr = []
+        for (const i in resp) {
+          arr.push(resp[i])
+        }
+        _this.tableData = arr
+        console.log(_this.tableData, 'Data')
+        // _this.total = resp.totalCount
+      })
+    },
     page (currentPage) {
       // alert(currentPage)
       const _this = this

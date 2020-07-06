@@ -1,7 +1,12 @@
 <template>
     <div class="manage">
-        <div class="manageheader" style="height: 10%;background-color:lightskyblue;">
-        </div>
+        <el-input
+                placeholder="可以输入书名或作者"
+                prefix-icon="el-icon-search"
+                v-model="searchContent"
+                style="width: 20%">
+        </el-input>
+        <el-button style="margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         <el-table
                 :data="tableData"
                 height="120%"
@@ -58,9 +63,9 @@
                     fixed="right"
                     label="操作"
                     width="200">
-                <template>
+                <template slot-scope="scope">
                     <el-button size="mini">编辑</el-button>
-                    <el-button size="mini" type="danger">删除</el-button>
+                    <el-button @click="deletebook(scope.row)" size="mini" type="danger">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -68,7 +73,6 @@
                 style="padding-top: 20px"
                 class="pager"
                 background layout="prev, pager, next"
-                page-size="5"
                 :total="total"
                 @current-change="page">
         </el-pagination>
@@ -80,6 +84,7 @@
 export default {
   data () {
     return {
+      searchContent: '',
       total: null,
       tableData: [],
       searchFrom: {
@@ -94,11 +99,29 @@ export default {
     }
   },
   methods: {
+    search () {
+      const _this = this
+      this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
+        console.log(resp.data)
+        const arr = []
+        for (const i in resp) {
+          arr.push(resp[i])
+        }
+        _this.tableData = arr
+        console.log(_this.tableData, 'Data')
+        // _this.total = resp.totalCount
+      })
+    },
+    // deletebook (row) {
+    //   this.$http.delete('/bbok/deleteById/' + row.id).then(function (resp) {
+    //
+    //   })
+    // },
     page (currentPage) {
       // alert(currentPage)
       const _this = this
       this.$http.get('/book/findAll/' + currentPage + '/5').then(function (resp) {
-        console.log(resp)
+        console.log(resp.data.data)
         _this.tableData = resp.data.data
         _this.total = resp.data.totalCount
       })
@@ -107,8 +130,9 @@ export default {
   created () {
     const _this = this
     this.$http.get('/book/findAll/1/5').then(function (resp) {
-      console.log(resp)
+      console.log(resp.data.data)
       _this.tableData = resp.data.data
+      console.log(_this.tableData, 'Data1')
       _this.total = resp.data.totalCount
     })
   }
@@ -118,6 +142,7 @@ export default {
 <style lang="scss" scoped>
     .manage {
         height: 70%;
+
         &-header {
             display: flex;
             justify-content: space-between;
