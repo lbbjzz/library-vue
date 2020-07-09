@@ -51,7 +51,7 @@
                 </el-button>
             </el-form-item>
             <el-form-item>
-                <el-button style="width: 100%" type="primary" @click="onRegister">
+                <el-button style="width: 100%" type="primary" @click="toRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -113,12 +113,6 @@ export default {
             message: this.$t('language.userBox_error'),
             trigger: 'blur'
           }
-          // {
-          //   min: 3,
-          //   max: 8,
-          //   message: '长度在3-8个字符',
-          //   trigger: 'blur'
-          // }
         ],
         password: [
           {
@@ -165,7 +159,7 @@ export default {
           break
       }
     },
-    onRegister () {
+    toRegister () {
       this.$router.push('/register')
     },
     onLogin () {

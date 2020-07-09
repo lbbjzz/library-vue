@@ -149,19 +149,19 @@ export default {
             data: [
               {
                 name: 'Vue',
-                value: 74.9
+                value: 80.1
               },
               {
                 name: 'JavaScript',
-                value: 17.5
+                value: 15.6
               },
               {
                 name: 'CSS',
-                value: 5.2
+                value: 3.4
               },
               {
                 name: 'HTML',
-                value: 2.4
+                value: 0.9
               }
             ],
             label: {

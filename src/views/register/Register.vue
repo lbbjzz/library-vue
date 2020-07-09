@@ -28,6 +28,12 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
+            <el-form-item prop="sex">
+                <el-select v-model="form.sex" placeholder="请选择您的性别" auto-complete="off">
+                    <el-option label="先生" value="先生"></el-option>
+                    <el-option label="女士" value="女士"></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item prop="email">
                 <el-input type="email" v-model="form.email" auto-complete="off"
                           :placeholder="$t('language.email')">
@@ -39,7 +45,8 @@
                           :placeholder="$t('language.code')" style="width: 60%">
                     <i slot="prefix" class="el-icon-check"></i>
                 </el-input>
-                <el-button style=" float:right;width: 35%;font-size: 13px" type="primary">{{$t('language.getCode')}}
+                <el-button style=" float:right;width: 35%;font-size: 13px" type="primary" @click="getCode">
+                    {{$t('language.getCode')}}
                 </el-button>
             </el-form-item>
             <el-form-item>
@@ -84,6 +91,7 @@ export default {
       form: {
         email: '',
         userName: '',
+        sex: '',
         password: '',
         code: ''
       },
@@ -97,6 +105,13 @@ export default {
           }
         ],
         userName: [
+          {
+            required: true,
+            message: this.$t('language.userBox_error'),
+            trigger: 'blur'
+          }
+        ],
+        sex: [
           {
             required: true,
             message: this.$t('language.userBox_error'),
@@ -154,6 +169,16 @@ export default {
         default:
           break
       }
+    },
+    getCode () {
+      this.$http.get('/sendCodeEmail', {
+        userName: this.form.userName,
+        password: this.form.password,
+        sex: this.form.sex,
+        email: this.form.email
+      }).then(res => {
+        console.log(res.data)
+      })
     },
     toRegister () {
       console.log(this.form)

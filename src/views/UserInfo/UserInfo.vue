@@ -28,16 +28,16 @@
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
-            <el-form :model="pwdForm" :rules="pwdrules" ref="pwdForm" label-width="100px" class="demo-ruleForm"
-                     style="margin-top: 40px">
-                <el-form-item label="修改密码" prop="confirmpwd">
-                    <el-input v-model="pwdForm.confirmpwd"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="editpwd('pwdForm')">修改</el-button>
-                    <el-button @click="resetForm('pwdForm')">重置</el-button>
-                </el-form-item>
-            </el-form>
+<!--            <el-form :model="pwdForm" :rules="pwdrules" ref="pwdForm" label-width="100px" class="demo-ruleForm"-->
+<!--                     style="margin-top: 40px">-->
+<!--                <el-form-item label="修改密码" prop="confirmpwd">-->
+<!--                    <el-input v-model="pwdForm.confirmpwd"></el-input>-->
+<!--                </el-form-item>-->
+<!--                <el-form-item>-->
+<!--                    <el-button type="primary" @click="editpwd('pwdForm')">修改</el-button>-->
+<!--                    <el-button @click="resetForm('pwdForm')">重置</el-button>-->
+<!--                </el-form-item>-->
+<!--            </el-form>-->
         </div>
         <div style="float: right;width: 75%;height: 100%">
             <el-table
@@ -45,7 +45,7 @@
                     height="120%"
                     style="width: 100%" stripe>
                 <el-table-column
-                        prop="bookId"
+                        prop="id"
                         label="序号"
                         width="100">
                 </el-table-column>
@@ -55,7 +55,7 @@
                         width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="id"
+                        prop="bookId"
                         label="图书ID"
                         width="150">
                 </el-table-column>
@@ -65,11 +65,18 @@
                         width="150">
                 </el-table-column>
                 <el-table-column
+                        prop="isReturned"
+                        label="是否归还"
+                        width="150">
+                </el-table-column>
+                <el-table-column
                         fixed="right"
                         label="操作"
                         width="200">
                     <template slot-scope="scope">
-                        <el-button size="mini" style="background-color:lightskyblue;" @click="returnBook(scope.row)">归还</el-button>
+                        <el-button size="mini" style="background-color:lightskyblue;" @click="returnBook(scope.row)">
+                            归还
+                        </el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -176,17 +183,24 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get('/book/return/' + row.id).then(function (resp) {
-          console.log(resp.data)
+        if (row.isReturned === 1) {
           _this.$message({
-            type: 'success',
-            message: '归还成功'
+            type: 'warning',
+            message: '您已归还，无需重复操作'
           })
-          clearTimeout(_this.timer)
-          _this.timer = setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
+        } else {
+          this.$http.get('/book/return/' + row.bookId).then(function (resp) {
+            console.log(resp.data)
+            _this.$message({
+              type: 'success',
+              message: '归还成功'
+            })
+            clearTimeout(_this.timer)
+            _this.timer = setTimeout(() => {
+              // window.location.reload()
+            }, 1000)
+          })
+        }
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -254,7 +268,7 @@ export default {
       console.log(resp)
       _this.ruleForm = resp.data
       const userid = resp.data.id
-      _this.$http.get('/borrow/findByUserId/' + userid + '/1/5').then(function (res) {
+      _this.$http.get('/borrow/findByUserId/' + userid + '/1/30').then(function (res) {
         console.log(res.data.data, 'datdatatda')
         __this.tableData = res.data.data
       })
