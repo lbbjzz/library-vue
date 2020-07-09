@@ -2,26 +2,39 @@
     <div class="manage">
         <el-button style="float:left" type="primary" @click="dialogFormVisible = true">+ 添加</el-button>
         <el-dialog title="添加图书" :visible.sync="dialogFormVisible" style="text-align: center">
-            <el-form :model="form">
-                <el-form-item label="书名:" :label-width="formLabelWidth">
+            <el-form :model="form" :rules="addrules">
+                <el-form-item label="书名:" :label-width="formLabelWidth" prop="bookName">
                     <el-input v-model="form.bookName" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="作者:" :label-width="formLabelWidth">
+                <el-form-item label="作者:" :label-width="formLabelWidth" prop="author">
                     <el-input v-model="form.author" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="出版社:" :label-width="formLabelWidth">
+                <el-form-item label="出版社:" :label-width="formLabelWidth" prop="pubHouse">
                     <el-input v-model="form.pubHouse" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="出版年份:" :label-width="formLabelWidth">
+                <el-form-item label="出版年份:" :label-width="formLabelWidth" prop="pubDate">
                     <el-input v-model="form.pubDate" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="类别:" :label-width="formLabelWidth">
-                    <el-input v-model="form.classes" autocomplete="off"></el-input>
+                <el-form-item label="类别:" prop="classes" :label-width="formLabelWidth">
+                    <el-select v-model="form.classes" autocomplete="off" style="float: left">
+                        <el-option label="悬疑小说" value="悬疑小说"></el-option>
+                        <el-option label="幼儿读物" value="幼儿读物"></el-option>
+                        <el-option label="中国儿童文学" value="中国儿童文学"></el-option>
+                        <el-option label="外国儿童文学" value="外国儿童文学"></el-option>
+                        <el-option label="传记" value="传记"></el-option>
+                        <el-option label="青春文学" value="青春文学"></el-option>
+                        <el-option label="艺术" value="艺术"></el-option>
+                        <el-option label="动漫" value="动漫"></el-option>
+                        <el-option label="摄影" value="摄影"></el-option>
+                        <el-option label="哲学宗教" value="哲学宗教"></el-option>
+                        <el-option label="政治军事" value="政治军事"></el-option>
+                        <el-option label="社会科学" value="社会科学"></el-option>
+                    </el-select>
                 </el-form-item>
-                <el-form-item label="价格:" :label-width="formLabelWidth">
+                <el-form-item label="价格:" :label-width="formLabelWidth" prop="price">
                     <el-input v-model="form.price" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="馆藏数量:" :label-width="formLabelWidth">
+                <el-form-item label="馆藏数量:" :label-width="formLabelWidth" prop="quantity">
                     <el-input v-model="form.quantity" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -41,14 +54,14 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="edit = false">取 消</el-button>
-                <el-button type="primary" @click="edit = false">确 定</el-button>
+                <el-button type="primary" @click="editBook">确 定</el-button>
             </div>
         </el-dialog>
 
         <el-button style="float: right;margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索
         </el-button>
         <el-input
-                placeholder="可以输入书名或作者"
+                placeholder="请输入图书ID"
                 prefix-icon="el-icon-search"
                 v-model="searchContent"
                 style="width: 20%;float: right">
@@ -149,10 +162,66 @@ export default {
         classes: '',
         price: '',
         quantity: ''
+      },
+      addrules: {
+        bookName: [
+          {
+            required: true,
+            message: '请输入书名！',
+            trigger: 'blur'
+          }
+        ],
+        author: [
+          {
+            required: true,
+            message: '请输入作者！',
+            trigger: 'blur'
+          }
+        ],
+        puHouse: [
+          {
+            required: true,
+            message: '请输入出版社！',
+            trigger: 'blur'
+          }
+        ],
+        pubDate: [
+          {
+            required: true,
+            message: '请输入出版时间！',
+            trigger: 'blur'
+          }
+        ],
+        classes: [
+          {
+            required: true,
+            message: '请选择类别！',
+            trigger: 'blur'
+          }
+        ],
+        price: [
+          {
+            required: true,
+            message: '请输入价格！',
+            trigger: 'blur'
+          }
+        ],
+        quantity: [
+          {
+            required: true,
+            message: '请输入库存！',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
   methods: {
+    editBook () {
+      console.log(this.editForm)
+      this.$http.put('/book/update', this.editForm)
+      this.edit = false
+    },
     handleApply: function (index, row) {
       const _this = this
       _this.editForm = row
@@ -160,6 +229,8 @@ export default {
     },
     search () {
       const _this = this
+      // const param = new URLSearchParams()
+      // param.append('bookName', '_this.searchContent')
       if (_this.searchContent === '') {
         _this.$message.warning('请输入查询内容')
       } else {
@@ -170,8 +241,7 @@ export default {
             arr.push(resp[i])
           }
           _this.tableData = arr
-          console.log(_this.tableData, 'Data')
-          // _this.total = resp.totalCount
+          // console.log(_this.tableData, 'Data')
         })
       }
     },

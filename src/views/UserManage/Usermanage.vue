@@ -2,23 +2,23 @@
     <div class="manage">
         <el-button style="float:left" type="primary" @click="dialogFormVisible = true">+ 添加</el-button>
         <el-dialog title="添加用户" :visible.sync="dialogFormVisible" style="text-align: center">
-            <el-form :model="form">
-                <el-form-item label="姓名:" :label-width="formLabelWidth">
+            <el-form :model="form" :rules="addrules">
+                <el-form-item label="姓名:" :label-width="formLabelWidth" prop="userName">
                     <el-input v-model="form.userName" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱:" :label-width="formLabelWidth">
+                <el-form-item label="邮箱:" :label-width="formLabelWidth" prop="email">
                     <el-input v-model="form.email" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="年龄:" :label-width="formLabelWidth">
+                <el-form-item label="年龄:" :label-width="formLabelWidth" prop="age">
                     <el-input v-model="form.age" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="性别:" :label-width="formLabelWidth">
+                <el-form-item label="性别:" :label-width="formLabelWidth" prop="sex">
                     <el-select v-model="form.sex" autocomplete="off" style="float: left">
                         <el-option label="先生" value="先生"></el-option>
                         <el-option label="女士" value="女士"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="联系方式:" :label-width="formLabelWidth">
+                <el-form-item label="联系方式:" :label-width="formLabelWidth" prop="phone">
                     <el-input v-model="form.phone" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
@@ -28,7 +28,7 @@
             </div>
         </el-dialog>
         <el-dialog title="用户信息修改" :visible.sync="edit" modal-append-to-body="false" style="text-align: center">
-            <el-form ref="edit" :model="editForm">
+            <el-form ref="edit" :model="editForm" :rules="rules">
                 <el-form-item label="姓名:" prop="userName" :label-width="formLabelWidth" style="margin-left: 90px">
                     <el-input v-model="editForm.userName" autocomplete="off" style="width: 60%;float: left">
                         {{editForm.userName}}
@@ -101,7 +101,7 @@
                     width="200">
                 <template slot-scope="scope">
                     <el-button size="mini" @click="handleApply(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="mini" type="danger" @click="deleteById(scope.row)">删除</el-button>
+                    <el-button size="mini" type="danger" @click="deleteById">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -135,6 +135,116 @@ export default {
         sex: '',
         phone: '',
         age: ''
+      },
+      rules: {
+        userName: [
+          {
+            required: true,
+            message: '请输入用户名！',
+            trigger: 'blur'
+          },
+          {
+            min: 2,
+            max: 8,
+            message: '长度在 2 到 8 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sex: [
+          {
+            required: true,
+            message: '请选择您的性别！',
+            trigger: 'change'
+          }
+        ],
+        phone: [
+          {
+            required: true,
+            message: '请输入您的电话号码！',
+            trigger: 'blur'
+          },
+          {
+            min: 8,
+            max: 11,
+            message: '长度在 8 到 11 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            required: true,
+            message: '请输入您的电子邮箱！',
+            trigger: 'blur'
+          }
+        ],
+        age: [
+          {
+            required: true,
+            message: '请输入您的年龄！',
+            trigger: 'blur'
+          },
+          {
+            min: 2,
+            max: 3,
+            message: '长度在 2 到 3 个字符',
+            trigger: 'blur'
+          }
+        ]
+      },
+      addrules: {
+        userName: [
+          {
+            required: true,
+            message: '请输入用户名！',
+            trigger: 'blur'
+          },
+          {
+            min: 2,
+            max: 8,
+            message: '长度在 2 到 8 个字符',
+            trigger: 'blur'
+          }
+        ],
+        sex: [
+          {
+            required: true,
+            message: '请选择您的性别！',
+            trigger: 'change'
+          }
+        ],
+        phone: [
+          {
+            required: true,
+            message: '请输入您的电话号码！',
+            trigger: 'blur'
+          },
+          {
+            min: 8,
+            max: 11,
+            message: '长度在 8 到 11 个字符',
+            trigger: 'blur'
+          }
+        ],
+        email: [
+          {
+            required: true,
+            message: '请输入您的电子邮箱！',
+            trigger: 'blur'
+          }
+        ],
+        age: [
+          {
+            required: true,
+            message: '请输入您的年龄！',
+            trigger: 'blur'
+          },
+          {
+            min: 2,
+            max: 3,
+            message: '长度在 2 到 3 个字符',
+            trigger: 'blur'
+          }
+        ]
       }
     }
   },
@@ -144,14 +254,14 @@ export default {
       _this.editForm = row
       _this.edit = true
     },
-    deleteById (row) {
+    deleteById () {
       const _this = this
       _this.$confirm('确认删除吗, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get('/book/' + row.id).then(function (resp) {
+        this.$http.get('/user/delete').then(function (resp) {
           _this.$message({
             type: 'success',
             message: '删除成功'
