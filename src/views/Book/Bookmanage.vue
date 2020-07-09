@@ -1,12 +1,58 @@
 <template>
     <div class="manage">
+        <el-button style="float:left" type="primary" @click="dialogFormVisible = true">+ 添加</el-button>
+        <el-dialog title="添加图书" :visible.sync="dialogFormVisible" style="text-align: center">
+            <el-form :model="form">
+                <el-form-item label="书名:" :label-width="formLabelWidth">
+                    <el-input v-model="form.bookName" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="作者:" :label-width="formLabelWidth">
+                    <el-input v-model="form.author" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="出版社:" :label-width="formLabelWidth">
+                    <el-input v-model="form.pubHouse" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="出版年份:" :label-width="formLabelWidth">
+                    <el-input v-model="form.pubDate" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="类别:" :label-width="formLabelWidth">
+                    <el-input v-model="form.classes" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="价格:" :label-width="formLabelWidth">
+                    <el-input v-model="form.price" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="馆藏数量:" :label-width="formLabelWidth">
+                    <el-input v-model="form.quantity" autocomplete="off"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-dialog title="库存修改" :visible.sync="edit" modal-append-to-body="false" style="text-align: center">
+            <el-form ref="edit" :model="editForm">
+                <el-form-item label="馆藏数量:" prop="quantity" :label-width="formLabelWidth" style="margin-left: 90px">
+                    <el-input v-model="editForm.quantity" autocomplete="off" style="width: 60%;float: left">
+                        {{editForm.quantity}}
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="edit = false">取 消</el-button>
+                <el-button type="primary" @click="edit = false">确 定</el-button>
+            </div>
+        </el-dialog>
+
+        <el-button style="float: right;margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索
+        </el-button>
         <el-input
                 placeholder="可以输入书名或作者"
                 prefix-icon="el-icon-search"
                 v-model="searchContent"
-                style="width: 20%">
+                style="width: 20%;float: right">
         </el-input>
-        <el-button style="margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
         <el-table
                 :data="tableData"
                 height="120%"
@@ -41,7 +87,7 @@
             </el-table-column>
             <el-table-column
                     prop="pubDate"
-                    label="出版日期"
+                    label="出版年份"
                     width="120">
             </el-table-column>
             <el-table-column
@@ -64,8 +110,8 @@
                     label="操作"
                     width="200">
                 <template slot-scope="scope">
-                    <el-button size="mini">编辑</el-button>
-                    <el-button @click="deletebook(scope.row)" size="mini" type="danger">删除</el-button>
+                    <el-button size="mini" @click="handleApply(scope.$index, scope.row)">编辑</el-button>
+                    <el-button @click="deleteById(scope.row)" size="mini" type="danger">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -73,6 +119,7 @@
                 style="padding-top: 20px"
                 class="pager"
                 background layout="prev, pager, next"
+                page-size="5"
                 :total="total"
                 @current-change="page">
         </el-pagination>
@@ -87,41 +134,76 @@ export default {
       searchContent: '',
       total: null,
       tableData: [],
-      searchFrom: {
-        keyword: ''
+      edit: false,
+      editForm: {
+        quantity: ''
       },
-      formLabel: [
-        {
-          model: 'keyword',
-          label: ''
-        }
-      ]
+      formLabelWidth: '120px',
+      dialogTableVisible: false,
+      dialogFormVisible: false,
+      form: {
+        bookName: '',
+        author: '',
+        pubHouse: '',
+        pubDate: '',
+        classes: '',
+        price: '',
+        quantity: ''
+      }
     }
   },
   methods: {
+    handleApply: function (index, row) {
+      const _this = this
+      _this.editForm = row
+      _this.edit = true
+    },
     search () {
       const _this = this
-      this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
-        console.log(resp.data)
-        const arr = []
-        for (const i in resp) {
-          arr.push(resp[i])
-        }
-        _this.tableData = arr
-        console.log(_this.tableData, 'Data')
-        // _this.total = resp.totalCount
+      if (_this.searchContent === '') {
+        _this.$message.warning('请输入查询内容')
+      } else {
+        this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
+          console.log(resp.data)
+          const arr = []
+          for (const i in resp) {
+            arr.push(resp[i])
+          }
+          _this.tableData = arr
+          console.log(_this.tableData, 'Data')
+          // _this.total = resp.totalCount
+        })
+      }
+    },
+    deleteById (row) {
+      const _this = this
+      _this.$confirm('确认删除吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('/book/deleteById/' + row.id).then(function (resp) {
+          _this.$message({
+            type: 'success',
+            message: '删除成功'
+          })
+          clearTimeout(_this.timer)
+          _this.timer = setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
-    // deletebook (row) {
-    //   this.$http.delete('/bbok/deleteById/' + row.id).then(function (resp) {
-    //
-    //   })
-    // },
     page (currentPage) {
       // alert(currentPage)
       const _this = this
       this.$http.get('/book/findAll/' + currentPage + '/5').then(function (resp) {
-        console.log(resp.data.data)
+        console.log(resp)
         _this.tableData = resp.data.data
         _this.total = resp.data.totalCount
       })
@@ -130,9 +212,8 @@ export default {
   created () {
     const _this = this
     this.$http.get('/book/findAll/1/5').then(function (resp) {
-      console.log(resp.data.data)
+      console.log(resp)
       _this.tableData = resp.data.data
-      console.log(_this.tableData, 'Data1')
       _this.total = resp.data.totalCount
     })
   }

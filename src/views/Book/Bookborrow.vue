@@ -102,16 +102,20 @@ export default {
   methods: {
     search () {
       const _this = this
-      this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
-        console.log(resp.data)
-        const arr = []
-        for (const i in resp) {
-          arr.push(resp[i])
-        }
-        _this.tableData = arr
-        console.log(_this.tableData, 'Data')
-        // _this.total = resp.totalCount
-      })
+      if (_this.searchContent === '') {
+        _this.$message.warning('请输入查询内容')
+      } else {
+        this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
+          console.log(resp.data)
+          const arr = []
+          for (const i in resp) {
+            arr.push(resp[i])
+          }
+          _this.tableData = arr
+          console.log(_this.tableData, 'Data')
+          // _this.total = resp.totalCount
+        })
+      }
     },
     page (currentPage) {
       // alert(currentPage)
@@ -137,12 +141,14 @@ export default {
 <style lang="scss" scoped>
     .manage {
         height: 70%;
+
         &-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
     }
+
     .pager {
         position: absolute;
         right: 20px;
