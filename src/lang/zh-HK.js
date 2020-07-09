@@ -15,5 +15,8 @@ export const language = {
   code_info_1: '校驗成功！',
   code_info_2: '失敗，請重試！',
   login: '登錄',
-  register: '注冊'
+  register: '注冊',
+  code: '驗證碼',
+  getCode: '獲取驗證碼',
+  code_error: '請輸入驗證碼！'
 }

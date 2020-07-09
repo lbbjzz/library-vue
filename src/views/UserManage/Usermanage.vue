@@ -258,13 +258,15 @@ export default {
         console.log(res.data)
       })
       this.dialogFormVisible = false
+      window.location.reload()
     },
     editUser () {
       console.log(this.editForm)
-      this.$http.put('/user/save', this.editForm).then(res=>{
+      this.$http.put('/user/save', this.editForm).then(res => {
         console.log(res.data)
       })
       this.edit = false
+      window.location.reload()
     },
     handleApply: function (index, row) {
       const _this = this

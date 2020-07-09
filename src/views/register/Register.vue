@@ -15,10 +15,10 @@
         </div>
 
         <!--        登陆主体-->
-        <el-form ref="form" :model="form" class="register-form" :rules="rules">
+        <el-form ref="registerFormRef" :model="form" class="register-form" :rules="rules">
             <h3 class="title">{{$t('language.title')}}</h3>
             <el-form-item prop="userName">
-                <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
+                <el-input type="text" v-model="form.userName" auto-complete="off" :placeholder="$t('language.userBox')">
                     <i slot="prefix" class="el-icon-user input-icon"></i>
                 </el-input>
             </el-form-item>
@@ -35,7 +35,15 @@
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-button style="width: 100%" type="primary" @click="onRegister">
+                <el-input type="text" v-model="form.code" auto-complete="off"
+                          :placeholder="$t('language.code')" style="width: 60%">
+                    <i slot="prefix" class="el-icon-check"></i>
+                </el-input>
+                <el-button style=" float:right;width: 35%;font-size: 13px" type="primary">{{$t('language.getCode')}}
+                </el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button style="width: 100%" type="primary" @click="toRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -76,7 +84,8 @@ export default {
       form: {
         email: '',
         userName: '',
-        password: ''
+        password: '',
+        code: ''
       },
 
       rules: {
@@ -104,6 +113,13 @@ export default {
             min: 6,
             max: 18,
             message: '长度在6-18个字符',
+            trigger: 'blur'
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: this.$t('language.code_error'),
             trigger: 'blur'
           }
         ]
@@ -139,23 +155,7 @@ export default {
           break
       }
     },
-    onRegister (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          // this.$http.post('/user/save', this.form)
-          this.$message({
-            message: this.$t('language.register_success'),
-            type: 'success'
-          })
-          this.$router.push('/login')
-        } else {
-          this.$message({
-            message: this.$t('language.register_error'),
-            type: 'warning'
-          })
-          return false
-        }
-      })
+    toRegister () {
     }
   }
 }

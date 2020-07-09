@@ -28,7 +28,7 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
-            验证码
+<!--            验证码-->
             <el-form-item @click="handleClick">
                 <div class="login-code">
                     <slide-verify
@@ -51,7 +51,7 @@
                 </el-button>
             </el-form-item>
             <el-form-item>
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister">
+                <el-button style="width: 100%;background-color: gray" type="primary" @click="toRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -189,7 +189,7 @@ export default {
         }
       })
     },
-    onRegister () {
+    toRegister () {
       this.$router.push('/register')
     }
   }

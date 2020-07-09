@@ -15,5 +15,8 @@ export const language = {
   code_info_1: 'Done!',
   code_info_2: 'Oops! Please Try Again!',
   login: 'login',
-  register: 'register'
+  register: 'register',
+  code: 'Code',
+  getCode: 'Get Code',
+  code_error: 'Please Enter Your Verify Code!'
 }

@@ -45,11 +45,40 @@
         </el-dialog>
 
         <el-dialog title="库存修改" :visible.sync="edit" modal-append-to-body="false" style="text-align: center">
-            <el-form ref="edit" :model="editForm">
+            <el-form ref="edit" :model="editForm" :rules="editRules">
+                <el-form-item label="书名:" :label-width="formLabelWidth" prop="bookName">
+                    <el-input v-model="editForm.bookName" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="作者:" :label-width="formLabelWidth" prop="author">
+                    <el-input v-model="editForm.author" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="出版社:" :label-width="formLabelWidth" prop="pubHouse">
+                    <el-input v-model="editForm.pubHouse" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="出版年份:" :label-width="formLabelWidth" prop="pubDate">
+                    <el-input v-model="editForm.pubDate" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="类别:" prop="classes" :label-width="formLabelWidth">
+                    <el-select v-model="editForm.classes" autocomplete="off" style="float: left">
+                        <el-option label="悬疑小说" value="悬疑小说"></el-option>
+                        <el-option label="幼儿读物" value="幼儿读物"></el-option>
+                        <el-option label="中国儿童文学" value="中国儿童文学"></el-option>
+                        <el-option label="外国儿童文学" value="外国儿童文学"></el-option>
+                        <el-option label="传记" value="传记"></el-option>
+                        <el-option label="青春文学" value="青春文学"></el-option>
+                        <el-option label="艺术" value="艺术"></el-option>
+                        <el-option label="动漫" value="动漫"></el-option>
+                        <el-option label="摄影" value="摄影"></el-option>
+                        <el-option label="哲学宗教" value="哲学宗教"></el-option>
+                        <el-option label="政治军事" value="政治军事"></el-option>
+                        <el-option label="社会科学" value="社会科学"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="价格:" :label-width="formLabelWidth" prop="price">
+                    <el-input v-model="editForm.price" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="馆藏数量:" prop="quantity" :label-width="formLabelWidth" style="margin-left: 90px">
-                    <el-input v-model="editForm.quantity" autocomplete="off" style="width: 60%;float: left">
-                        {{editForm.quantity}}
-                    </el-input>
+                    <el-input v-model="editForm.quantity" autocomplete="off" style="width: 60%;float: left"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -149,6 +178,12 @@ export default {
       tableData: [],
       edit: false,
       editForm: {
+        bookName: '',
+        author: '',
+        pubHouse: '',
+        pubDate: '',
+        classes: '',
+        price: '',
         quantity: ''
       },
       formLabelWidth: '120px',
@@ -162,6 +197,57 @@ export default {
         classes: '',
         price: '',
         quantity: ''
+      },
+      editRules: {
+        bookName: [
+          {
+            required: true,
+            message: '请输入书名！',
+            trigger: 'blur'
+          }
+        ],
+        author: [
+          {
+            required: true,
+            message: '请输入作者！',
+            trigger: 'blur'
+          }
+        ],
+        puHouse: [
+          {
+            required: true,
+            message: '请输入出版社！',
+            trigger: 'blur'
+          }
+        ],
+        pubDate: [
+          {
+            required: true,
+            message: '请输入出版时间！',
+            trigger: 'blur'
+          }
+        ],
+        classes: [
+          {
+            required: true,
+            message: '请选择类别！',
+            trigger: 'blur'
+          }
+        ],
+        price: [
+          {
+            required: true,
+            message: '请输入价格！',
+            trigger: 'blur'
+          }
+        ],
+        quantity: [
+          {
+            required: true,
+            message: '请输入库存！',
+            trigger: 'blur'
+          }
+        ]
       },
       addrules: {
         bookName: [

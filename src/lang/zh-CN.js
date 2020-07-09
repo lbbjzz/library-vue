@@ -15,5 +15,8 @@ export const language = {
   code_info_1: '校验成功！',
   code_info_2: '失败，请重试！',
   login: '登录',
-  register: '注册'
+  register: '注册',
+  code: '验证码',
+  getCode: '获取验证码',
+  code_error: '请输入验证码！'
 }

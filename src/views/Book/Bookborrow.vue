@@ -64,8 +64,8 @@
                     fixed="right"
                     label="操作"
                     width="200">
-                <template>
-                    <el-button size="mini" style="background-color:lightskyblue;">借阅</el-button>
+                <template slot-scope="scope">
+                    <el-button size="mini" style="background-color:lightskyblue;" @click="borrowBook(scope.row)">借阅</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -100,6 +100,31 @@ export default {
     }
   },
   methods: {
+    borrowBook (row) {
+      const _this = this
+      _this.$confirm('确认借阅吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('/book/borrow/' + row.id).then(function (resp) {
+          console.log(resp.data)
+          _this.$message({
+            type: 'success',
+            message: '借阅成功'
+          })
+          clearTimeout(_this.timer)
+          _this.timer = setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消借阅'
+        })
+      })
+    },
     search () {
       const _this = this
       if (_this.searchContent === '') {

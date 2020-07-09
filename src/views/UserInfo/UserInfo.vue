@@ -27,10 +27,7 @@
             </el-form>
             <el-form :model="pwdForm" :rules="pwdrules" ref="pwdForm" label-width="100px" class="demo-ruleForm"
                      style="margin-top: 40px">
-                <el-form-item label="密码" prop="newpwd">
-                    <el-input v-model="pwdForm.newpwd"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="confirmpwd">
+                <el-form-item label="修改密码" prop="confirmpwd">
                     <el-input v-model="pwdForm.confirmpwd"></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -200,7 +197,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log(this.submitForm, 'submit')
-        this.$http.post().then(function (resp) {
+        this.$http.put('user/save', this.ruleForm).then(function (resp) {
           _this.$message({
             type: 'success',
             message: '修改成功'
@@ -224,7 +221,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get().then(function (resp) {
+        this.$http.put('user/save', this.pwdForm).then(function (resp) {
           _this.$message({
             type: 'success',
             message: '修改成功'
