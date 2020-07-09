@@ -1,7 +1,7 @@
 <template>
     <div class="manage">
         <el-input
-                placeholder="可以输入书名或作者"
+                placeholder="请输入书名"
                 prefix-icon="el-icon-search"
                 v-model="searchContent"
                 style="width: 20%">
@@ -105,13 +105,13 @@ export default {
       if (_this.searchContent === '') {
         _this.$message.warning('请输入查询内容')
       } else {
-        this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
-          console.log(resp.data)
-          const arr = []
-          for (const i in resp) {
-            arr.push(resp[i])
-          }
-          _this.tableData = arr
+        this.$http.get('/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
+          // console.log(resp.data)
+          // const arr = []
+          // for (const i in resp) {
+          //   arr.push(resp[i])
+          // }
+          _this.tableData = resp.data.data
           console.log(_this.tableData, 'Data')
           // _this.total = resp.totalCount
         })

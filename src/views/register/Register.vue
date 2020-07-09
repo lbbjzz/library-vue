@@ -16,7 +16,7 @@
 
         <!--        登陆主体-->
         <el-form ref="form" :model="form" class="register-form" :rules="rules">
-            <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
+            <h3 class="title">{{$t('language.title')}}</h3>
             <el-form-item prop="userName">
                 <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
                     <i slot="prefix" class="el-icon-user input-icon"></i>
@@ -34,14 +34,8 @@
                     <i slot="prefix" class="el-icon-message"></i>
                 </el-input>
             </el-form-item>
-            <!--            <el-form-item prop="phone">-->
-            <!--                <el-input type="text" v-model="form.phone" auto-complete="off"-->
-            <!--                          :placeholder="$t('language.phone')">-->
-            <!--                    <i slot="prefix" class="el-icon-phone"></i>-->
-            <!--                </el-input>-->
-            <!--            </el-form-item>-->
-            <el-form-item v-model="activeName" @click="handleClick">
-                <el-button style="width: 100%" type="primary" @click="onRegister('form')">
+            <el-form-item>
+                <el-button style="width: 100%" type="primary" @click="onRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -64,7 +58,6 @@ export default {
       // 国际化
       value: 'zh-CN',
       lang: 'zh-CN',
-      activeName: 'first',
       options: [
         {
           value: 'zh-CN',
@@ -84,7 +77,6 @@ export default {
         email: '',
         userName: '',
         password: ''
-        // phone: '',
       },
 
       rules: {
@@ -100,12 +92,6 @@ export default {
             required: true,
             message: this.$t('language.userBox_error'),
             trigger: 'blur'
-          },
-          {
-            min: 3,
-            max: 8,
-            message: '长度在3-8个字符',
-            trigger: 'blur'
           }
         ],
         password: [
@@ -118,13 +104,6 @@ export default {
             min: 6,
             max: 18,
             message: '长度在6-18个字符',
-            trigger: 'blur'
-          }
-        ],
-        phone: [
-          {
-            required: true,
-            message: this.$t('language.phoneBox_error'),
             trigger: 'blur'
           }
         ]
@@ -140,8 +119,6 @@ export default {
     },
     onRefresh () {
       this.msg = ''
-    },
-    handleClick () {
     },
     // 切换语言
     changeLangEvent (value) {
@@ -165,6 +142,7 @@ export default {
     onRegister (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          // this.$http.post('/user/save', this.form)
           this.$message({
             message: this.$t('language.register_success'),
             type: 'success'

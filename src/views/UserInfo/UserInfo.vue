@@ -199,7 +199,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get().then(function (resp) {
+        console.log(this.submitForm, 'submit')
+        this.$http.post().then(function (resp) {
           _this.$message({
             type: 'success',
             message: '修改成功'
@@ -260,7 +261,7 @@ export default {
 }
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
     .info {
         height: 70%;
     }

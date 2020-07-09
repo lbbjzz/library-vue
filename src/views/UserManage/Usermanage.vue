@@ -6,6 +6,9 @@
                 <el-form-item label="姓名:" :label-width="formLabelWidth" prop="userName">
                     <el-input v-model="form.userName" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="密码:" :label-width="formLabelWidth" prop="password">
+                    <el-input v-model="form.password" autocomplete="off"></el-input>
+                </el-form-item>
                 <el-form-item label="邮箱:" :label-width="formLabelWidth" prop="email">
                     <el-input v-model="form.email" autocomplete="off"></el-input>
                 </el-form-item>
@@ -21,11 +24,11 @@
                 <el-form-item label="联系方式:" :label-width="formLabelWidth" prop="phone">
                     <el-input v-model="form.phone" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item>
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addUser()">确 定</el-button>
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-            </div>
         </el-dialog>
         <el-dialog title="用户信息修改" :visible.sync="edit" modal-append-to-body="false" style="text-align: center">
             <el-form ref="edit" :model="editForm" :rules="rules">
@@ -55,11 +58,11 @@
                         {{editForm.phone}}
                     </el-input>
                 </el-form-item>
+                <el-form-item>
+                    <el-button @click="edit = false">取 消</el-button>
+                    <el-button type="primary" @click="editUser">确 定</el-button>
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="edit = false">取 消</el-button>
-                <el-button type="primary" @click="edit = false">确 定</el-button>
-            </div>
         </el-dialog>
         <el-table
                 :data="tableData"
@@ -67,7 +70,7 @@
                 style="width: 100%" stripe>
             <el-table-column
                     prop="id"
-                    label="序号"
+                    label="ID"
                     width="100">
             </el-table-column>
             <el-table-column
@@ -101,7 +104,7 @@
                     width="200">
                 <template slot-scope="scope">
                     <el-button size="mini" @click="handleApply(scope.$index, scope.row)">编辑</el-button>
-                    <el-button size="mini" type="danger" @click="deleteById">删除</el-button>
+                    <!--                    <el-button size="mini" type="danger" @click="deleteById(scope.row)">删除</el-button>-->
                 </template>
             </el-table-column>
         </el-table>
@@ -249,36 +252,51 @@ export default {
     }
   },
   methods: {
+    addUser () {
+      console.log(this.form)
+      this.$http.put('/user/save', this.form).then(res => {
+        console.log(res.data)
+      })
+      this.dialogFormVisible = false
+    },
+    editUser () {
+      console.log(this.editForm)
+      this.$http.put('/user/save', this.editForm).then(res=>{
+        console.log(res.data)
+      })
+      this.edit = false
+    },
     handleApply: function (index, row) {
       const _this = this
       _this.editForm = row
       _this.edit = true
-    },
-    deleteById () {
-      const _this = this
-      _this.$confirm('确认删除吗, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$http.get('/user/delete').then(function (resp) {
-          _this.$message({
-            type: 'success',
-            message: '删除成功'
-          })
-          clearTimeout(_this.timer)
-          _this.timer = setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
     }
   },
+  //   deleteById (row) {
+  //     const _this = this
+  //     _this.$confirm('确认删除吗, 是否继续?', '提示', {
+  //       confirmButtonText: '确定',
+  //       cancelButtonText: '取消',
+  //       type: 'warning'
+  //     }).then(() => {
+  //       this.$http.get('/user/delete/' + row.id).then(function (resp) {
+  //         _this.$message({
+  //           type: 'success',
+  //           message: '删除成功'
+  //         })
+  //         clearTimeout(_this.timer)
+  //         _this.timer = setTimeout(() => {
+  //           window.location.reload()
+  //         }, 1000)
+  //       })
+  //     }).catch(() => {
+  //       this.$message({
+  //         type: 'info',
+  //         message: '已取消删除'
+  //       })
+  //     })
+  //   }
+  // },
   created () {
     const _this = this
     this.$http.get('/user/list').then(function (resp) {

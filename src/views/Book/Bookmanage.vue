@@ -37,11 +37,11 @@
                 <el-form-item label="馆藏数量:" :label-width="formLabelWidth" prop="quantity">
                     <el-input v-model="form.quantity" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item>
+                    <el-button @click="dialogFormVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="addBook()">确 定</el-button>
+                </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-            </div>
         </el-dialog>
 
         <el-dialog title="库存修改" :visible.sync="edit" modal-append-to-body="false" style="text-align: center">
@@ -61,7 +61,7 @@
         <el-button style="float: right;margin-left: 10px" type="primary" icon="el-icon-search" @click="search">搜索
         </el-button>
         <el-input
-                placeholder="请输入图书ID"
+                placeholder="请输入图书名称"
                 prefix-icon="el-icon-search"
                 v-model="searchContent"
                 style="width: 20%;float: right">
@@ -217,6 +217,15 @@ export default {
     }
   },
   methods: {
+    addBook () {
+      console.log(this.form, 'form')
+      this.$http.post('/book/save', this.form)
+      this.$message({
+        message: '添加成功！',
+        type: 'success'
+      })
+      this.dialogFormVisible = false
+    },
     editBook () {
       console.log(this.editForm)
       this.$http.put('/book/update', this.editForm)
@@ -234,13 +243,13 @@ export default {
       if (_this.searchContent === '') {
         _this.$message.warning('请输入查询内容')
       } else {
-        this.$http.get('/book/findById/' + _this.searchContent).then(function (resp) {
+        this.$http.get('/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
           console.log(resp.data)
-          const arr = []
-          for (const i in resp) {
-            arr.push(resp[i])
-          }
-          _this.tableData = arr
+          // const arr = []
+          // for (const i in resp) {
+          //   arr.push(resp[i])
+          // }
+          _this.tableData = resp.data.data
           // console.log(_this.tableData, 'Data')
         })
       }

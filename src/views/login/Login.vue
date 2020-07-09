@@ -16,7 +16,7 @@
 
         <!--        登陆主体-->
         <el-form ref="loginFormRef" :model="form" class="login-form" :rules="rules">
-            <h3 class="title" @click="handleClick">{{$t('language.title')}}</h3>
+            <h3 class="title">{{$t('language.title')}}</h3>
             <el-form-item prop="username">
                 <el-input type="text" v-model="form.username" auto-complete="off" :placeholder="$t('language.userBox')">
                     <i slot="prefix" class="el-icon-user input-icon"></i>
@@ -28,7 +28,7 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
-                  验证码
+            验证码
             <el-form-item @click="handleClick">
                 <div class="login-code">
                     <slide-verify
@@ -45,12 +45,12 @@
                     <div class="verify-info">{{msg}}</div>
                 </div>
             </el-form-item>
-            <el-form-item v-model="activeName" @click="handleClick">
+            <el-form-item>
                 <el-button style="width: 100%" type="primary" @click="onLogin">
                     {{$t('language.login')}}
                 </el-button>
             </el-form-item>
-            <el-form-item v-model="activeName" @click="handleClick">
+            <el-form-item>
                 <el-button style="width: 100%;background-color: gray" type="primary" @click="onRegister">
                     {{$t('language.register')}}
                 </el-button>
@@ -75,7 +75,6 @@ import g from '../../assets/verify/7.jpg'
 import h from '../../assets/verify/8.jpg'
 
 export default {
-  name: 'Login',
   data () {
     return {
       // 验证码
@@ -86,7 +85,7 @@ export default {
       // 国际化
       value: 'zh-CN',
       lang: 'zh-CN',
-      activeName: 'first',
+      // activeName: 'first',
       options: [
         {
           value: 'zh-CN',
@@ -146,8 +145,6 @@ export default {
     },
     onRefresh () {
       this.msg = ''
-    },
-    handleClick () {
     },
     // 切换语言
     changeLangEvent (value) {
