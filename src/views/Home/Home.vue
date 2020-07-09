@@ -179,24 +179,20 @@ export default {
         series: [
           {
             type: 'pie',
-            // roseType: 'angle',
+            roseType: 'angle',
             data: [
               {
                 name: 'Java',
-                value: 74.9
-              },
-              {
-                name: 'JavaScript',
-                value: 17.5
-              },
-              {
-                name: 'CSS',
-                value: 5.2
-              },
-              {
-                name: 'HTML',
-                value: 2.4
+                value: 100
               }
+              // {
+              //   name: 'JavaScript',
+              //   value: 14.2
+              // },
+              // {
+              //   name: 'CSS',
+              //   value: 0.9
+              // }
             ],
             label: {
               emphasis: mylabel
