@@ -2,6 +2,9 @@
     <div class="info">
         <div style="float: left;width: 20%">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                <el-form-item label="用户ID" prop="id">
+                    <el-input v-model="ruleForm.id" readonly></el-input>
+                </el-form-item>
                 <el-form-item label="用户名" prop="userName">
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
@@ -38,59 +41,35 @@
         </div>
         <div style="float: right;width: 75%;height: 100%">
             <el-table
-                    v-loading="loading"
                     :data="tableData"
                     height="120%"
                     style="width: 100%" stripe>
                 <el-table-column
-                        prop="id"
+                        prop="bookId"
                         label="序号"
-                        width="50">
+                        width="100">
                 </el-table-column>
                 <el-table-column
-                        prop="cover"
-                        label="封面"
-                        width="150">
-                    <template slot-scope="scope">
-                        <img :src="scope.row.cover" alt="" style="width: 80px;height:100px">
-                    </template>
+                        prop="borrow_date"
+                        label="借阅时间"
+                        width="200">
                 </el-table-column>
                 <el-table-column
-                        prop="bookName"
-                        label="书名"
+                        prop="id"
+                        label="图书ID"
                         width="150">
                 </el-table-column>
                 <el-table-column
-                        prop="author"
-                        label="作者"
-                        width="150">
-                </el-table-column>
-                <el-table-column
-                        prop="pubHouse"
-                        label="出版社"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="pubDate"
-                        label="出版日期"
-                        width="120">
-                </el-table-column>
-                <el-table-column
-                        prop="classes"
-                        label="类别"
-                        width="150">
-                </el-table-column>
-                <el-table-column
-                        prop="price"
-                        label="价格"
+                        prop="returnDate"
+                        label="最晚归还时间"
                         width="150">
                 </el-table-column>
                 <el-table-column
                         fixed="right"
                         label="操作"
                         width="200">
-                    <template>
-                        <el-button size="mini" style="background-color:lightskyblue;">归还</el-button>
+                    <template slot-scope="scope">
+                        <el-button size="mini" style="background-color:lightskyblue;" @click="returnBook(scope.row)">归还</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -103,6 +82,7 @@
 export default {
   data () {
     return {
+      tableData: [],
       total: null,
       ruleForm: {
         userName: '',
@@ -189,6 +169,31 @@ export default {
     }
   },
   methods: {
+    returnBook (row) {
+      const _this = this
+      _this.$confirm('确认归还吗, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$http.get('/book/return/' + row.id).then(function (resp) {
+          console.log(resp.data)
+          _this.$message({
+            type: 'success',
+            message: '归还成功'
+          })
+          clearTimeout(_this.timer)
+          _this.timer = setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消归还'
+        })
+      })
+    },
     submitForm (formName) {
       const _this = this
       _this.$confirm('确认修改吗, 是否继续?', '提示', {
@@ -248,11 +253,11 @@ export default {
     this.$http.get('/user/getUser').then(function (resp) {
       console.log(resp)
       _this.ruleForm = resp.data
-    })
-    this.$http.get('/book/findAll/1/5').then(function (resp) {
-      console.log(resp)
-      __this.tableData = resp.data.data
-      __this.total = resp.data.totalCount
+      const userid = resp.data.id
+      _this.$http.get('/borrow/findByUserId/' + userid + '/1/5').then(function (res) {
+        console.log(res.data.data, 'datdatatda')
+        __this.tableData = res.data.data
+      })
     })
   }
 }

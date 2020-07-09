@@ -28,8 +28,8 @@
                     <i slot="prefix" class="el-icon-lock input-icon"></i>
                 </el-input>
             </el-form-item>
-<!--            验证码-->
-            <el-form-item @click="handleClick">
+            <!--            验证码-->
+            <el-form-item>
                 <div class="login-code">
                     <slide-verify
                             :l="43"
@@ -51,7 +51,7 @@
                 </el-button>
             </el-form-item>
             <el-form-item>
-                <el-button style="width: 100%;background-color: gray" type="primary" @click="toRegister">
+                <el-button style="width: 100%" type="primary" @click="onRegister">
                     {{$t('language.register')}}
                 </el-button>
             </el-form-item>
@@ -165,6 +165,9 @@ export default {
           break
       }
     },
+    onRegister () {
+      this.$router.push('/register')
+    },
     onLogin () {
       this.$refs.loginFormRef.validate(async value => {
         if (!value) return
@@ -188,9 +191,6 @@ export default {
           this.$router.push({ name: 'home' })
         }
       })
-    },
-    toRegister () {
-      this.$router.push('/register')
     }
   }
 }

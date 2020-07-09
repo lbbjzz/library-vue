@@ -156,6 +156,14 @@ export default {
       }
     },
     toRegister () {
+      console.log(this.form)
+      this.$http.put('/user/register', {
+        userName: this.form.userName,
+        password: this.form.password,
+        email: this.form.email
+      }).then(res => {
+        console.log(res.data)
+      })
     }
   }
 }
