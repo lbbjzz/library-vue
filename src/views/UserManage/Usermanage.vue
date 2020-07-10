@@ -257,8 +257,15 @@ export default {
       this.$http.put('/user/save', this.form).then(res => {
         console.log(res.data)
       })
+      this.$message({
+        message: '添加成功！',
+        type: 'success'
+      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        window.location.reload()
+      }, 1000)
       this.dialogFormVisible = false
-      window.location.reload()
     },
     editUser () {
       console.log(this.editForm)

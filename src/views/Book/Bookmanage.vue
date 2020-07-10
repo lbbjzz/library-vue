@@ -310,6 +310,10 @@ export default {
         message: '添加成功！',
         type: 'success'
       })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        window.location.reload()
+      }, 1000)
       this.dialogFormVisible = false
     },
     editBook () {

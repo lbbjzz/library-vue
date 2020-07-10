@@ -102,8 +102,8 @@ export default {
       ],
 
       form: {
-        username: 'admin',
-        password: '123'
+        username: '',
+        password: ''
       },
 
       rules: {
