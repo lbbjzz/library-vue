@@ -185,9 +185,22 @@ export default {
       this.$http.put('/user/register', {
         userName: this.form.userName,
         password: this.form.password,
+        sex: this.form.sex,
         email: this.form.email
       }).then(res => {
         console.log(res.data)
+        if (res.data === 'success') {
+          this.$message({
+            type: 'success',
+            message: this.$t('language.register_success')
+          })
+          this.$router.push('/login')
+        } else {
+          this.$message({
+            type: 'warning',
+            message: this.$t('language.register_error')
+          })
+        }
       })
     }
   }

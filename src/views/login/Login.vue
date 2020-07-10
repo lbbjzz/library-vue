@@ -131,6 +131,9 @@ export default {
     }
   },
   methods: {
+    toRegister () {
+      this.$router.push('/register')
+    },
     onSuccess () {
       this.msg = this.$t('language.code_info_1')
     },
@@ -158,9 +161,6 @@ export default {
         default:
           break
       }
-    },
-    toRegister () {
-      this.$router.push('/register')
     },
     onLogin () {
       this.$refs.loginFormRef.validate(async value => {

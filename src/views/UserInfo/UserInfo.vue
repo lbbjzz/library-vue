@@ -28,16 +28,16 @@
                     <el-button @click="resetForm('ruleForm')">重置</el-button>
                 </el-form-item>
             </el-form>
-<!--            <el-form :model="pwdForm" :rules="pwdrules" ref="pwdForm" label-width="100px" class="demo-ruleForm"-->
-<!--                     style="margin-top: 40px">-->
-<!--                <el-form-item label="修改密码" prop="confirmpwd">-->
-<!--                    <el-input v-model="pwdForm.confirmpwd"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item>-->
-<!--                    <el-button type="primary" @click="editpwd('pwdForm')">修改</el-button>-->
-<!--                    <el-button @click="resetForm('pwdForm')">重置</el-button>-->
-<!--                </el-form-item>-->
-<!--            </el-form>-->
+            <!--            <el-form :model="pwdForm" :rules="pwdrules" ref="pwdForm" label-width="100px" class="demo-ruleForm"-->
+            <!--                     style="margin-top: 40px">-->
+            <!--                <el-form-item label="修改密码" prop="confirmpwd">-->
+            <!--                    <el-input v-model="pwdForm.confirmpwd"></el-input>-->
+            <!--                </el-form-item>-->
+            <!--                <el-form-item>-->
+            <!--                    <el-button type="primary" @click="editpwd('pwdForm')">修改</el-button>-->
+            <!--                    <el-button @click="resetForm('pwdForm')">重置</el-button>-->
+            <!--                </el-form-item>-->
+            <!--            </el-form>-->
         </div>
         <div style="float: right;width: 75%;height: 100%">
             <el-table
@@ -197,7 +197,7 @@ export default {
             })
             clearTimeout(_this.timer)
             _this.timer = setTimeout(() => {
-              // window.location.reload()
+              window.location.reload()
             }, 1000)
           })
         }

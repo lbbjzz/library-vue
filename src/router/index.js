@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '/',
-    name: 'Index',
-    redirect: { name: 'Login' }
-  },
+  // {
+  //   path: '/',
+  //   name: 'Index',
+  //   redirect: { name: 'Login' }
+  // },
   {
     path: '/login',
     name: 'Login',
