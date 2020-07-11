@@ -305,7 +305,7 @@ export default {
   methods: {
     addBook () {
       console.log(this.form, 'form')
-      this.$http.post('/book/save', this.form)
+      this.$http.post('/api/book/save', this.form)
       this.$message({
         message: '添加成功！',
         type: 'success'
@@ -318,7 +318,7 @@ export default {
     },
     editBook () {
       console.log(this.editForm)
-      this.$http.put('/book/update', this.editForm)
+      this.$http.put('/api/book/update', this.editForm)
       this.edit = false
     },
     handleApply: function (index, row) {
@@ -333,7 +333,7 @@ export default {
       if (_this.searchContent === '') {
         _this.$message.warning('请输入查询内容')
       } else {
-        this.$http.get('/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
+        this.$http.get('/api/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
           console.log(resp.data)
           // const arr = []
           // for (const i in resp) {
@@ -351,7 +351,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get('/book/deleteById/' + row.id).then(function (resp) {
+        this.$http.get('/api/book/deleteById/' + row.id).then(function (resp) {
           _this.$message({
             type: 'success',
             message: '删除成功'
@@ -371,7 +371,7 @@ export default {
     page (currentPage) {
       // alert(currentPage)
       const _this = this
-      this.$http.get('/book/findAll/' + currentPage + '/5').then(function (resp) {
+      this.$http.get('/api/book/findAll/' + currentPage + '/5').then(function (resp) {
         console.log(resp)
         _this.tableData = resp.data.data
         _this.total = resp.data.totalCount
@@ -380,7 +380,7 @@ export default {
   },
   created () {
     const _this = this
-    this.$http.get('/book/findAll/1/5').then(function (resp) {
+    this.$http.get('/api/book/findAll/1/5').then(function (resp) {
       console.log(resp)
       _this.tableData = resp.data.data
       _this.total = resp.data.totalCount

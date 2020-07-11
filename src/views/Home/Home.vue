@@ -92,6 +92,10 @@ export default {
           source: 'http://www.axios-js.com/zh-cn/docs/'
         },
         {
+          function: 'nginx',
+          source: 'https://nginx.org/en/'
+        },
+        {
           function: 'vue-i18n',
           source: 'https://kazupon.github.io/vue-i18n/'
         },

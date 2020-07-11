@@ -189,7 +189,7 @@ export default {
             message: '您已归还，无需重复操作'
           })
         } else {
-          this.$http.get('/book/return/' + row.bookId).then(function (resp) {
+          this.$http.get('/api/book/return/' + row.bookId).then(function (resp) {
             console.log(resp.data)
             _this.$message({
               type: 'success',
@@ -216,7 +216,7 @@ export default {
         type: 'warning'
       }).then(() => {
         console.log(this.submitForm, 'submit')
-        this.$http.put('user/save', this.ruleForm).then(function (resp) {
+        this.$http.put('/api/user/save', this.ruleForm).then(function (resp) {
           _this.$message({
             type: 'success',
             message: '修改成功'
@@ -240,7 +240,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.put('user/save', this.pwdForm).then(function (resp) {
+        this.$http.put('/api/user/save', this.pwdForm).then(function (resp) {
           _this.$message({
             type: 'success',
             message: '修改成功'
@@ -264,11 +264,11 @@ export default {
   created () {
     const _this = this
     const __this = this
-    this.$http.get('/user/getUser').then(function (resp) {
+    this.$http.get('/api/user/getUser').then(function (resp) {
       console.log(resp)
       _this.ruleForm = resp.data
       const userid = resp.data.id
-      _this.$http.get('/borrow/findByUserId/' + userid + '/1/30').then(function (res) {
+      _this.$http.get('/api/borrow/findByUserId/' + userid + '/1/30').then(function (res) {
         console.log(res.data.data, 'datdatatda')
         __this.tableData = res.data.data
       })

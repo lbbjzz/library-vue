@@ -20,7 +20,7 @@ Vue.use(ECharts)
 
 // Vue.prototype.$axios = axios
 // axios.defaults.baseURL = 'http://119.23.53.78:8888/api/private/v1'
-axios.defaults.baseURL = 'http://localhost:8001'
+// axios.defaults.baseURL = 'http://47.107.234.173:8001'
 
 Vue.prototype.$http = axios
 

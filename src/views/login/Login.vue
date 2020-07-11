@@ -165,13 +165,15 @@ export default {
     onLogin () {
       this.$refs.loginFormRef.validate(async value => {
         if (!value) return
-        const res = await this.$http.post('/userLogin', this.form)
+        const res = await this.$http.post('/api/userLogin', this.form)
         if (res.data.code !== 200) {
+          console.log(res)
           this.$message({
             message: this.$t('language.login_error'),
             type: 'warning'
           })
         } else {
+          console.log(res)
           this.$message({
             message: this.$t('language.login_success'),
             type: 'success'

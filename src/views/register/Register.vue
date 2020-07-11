@@ -170,25 +170,25 @@ export default {
           break
       }
     },
-    getCode () {
-      this.$http.get('/sendCodeEmail', {
-        userName: this.form.userName,
-        password: this.form.password,
-        sex: this.form.sex,
-        email: this.form.email
-      }).then(res => {
-        console.log(res.data)
-      })
-    },
+    // getCode () {
+    //   this.$http.get('/api/sendCodeEmail', {
+    //     userName: this.form.userName,
+    //     password: this.form.password,
+    //     sex: this.form.sex,
+    //     email: this.form.email
+    //   }).then(res => {
+    //     console.log(res.data)
+    //   })
+    // },
     toRegister () {
       console.log(this.form)
-      this.$http.put('/user/register', {
+      this.$http.put('/api/user/register', {
         userName: this.form.userName,
         password: this.form.password,
         sex: this.form.sex,
         email: this.form.email
       }).then(res => {
-        console.log(res.data)
+        console.log(res)
         if (res.data === 'success') {
           this.$message({
             type: 'success',
@@ -196,6 +196,7 @@ export default {
           })
           this.$router.push('/login')
         } else {
+          console.log(res)
           this.$message({
             type: 'warning',
             message: this.$t('language.register_error')

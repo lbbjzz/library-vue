@@ -107,7 +107,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$http.get('/book/borrow/' + row.id).then(function (resp) {
+        this.$http.get('/api/book/borrow/' + row.id).then(function (resp) {
           console.log(resp.data)
           _this.$message({
             type: 'success',
@@ -130,7 +130,7 @@ export default {
       if (_this.searchContent === '') {
         _this.$message.warning('请输入查询内容')
       } else {
-        this.$http.get('/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
+        this.$http.get('/api/book/findByName/' + _this.searchContent + '/1/5').then(function (resp) {
           // console.log(resp.data)
           // const arr = []
           // for (const i in resp) {
@@ -145,7 +145,7 @@ export default {
     page (currentPage) {
       // alert(currentPage)
       const _this = this
-      this.$http.get('/book/findAll/' + currentPage + '/5').then(function (resp) {
+      this.$http.get('/api/book/findAll/' + currentPage + '/5').then(function (resp) {
         console.log(resp)
         _this.tableData = resp.data.data
         _this.total = resp.data.totalCount
@@ -154,7 +154,7 @@ export default {
   },
   created () {
     const _this = this
-    this.$http.get('/book/findAll/1/5').then(function (resp) {
+    this.$http.get('/api/book/findAll/1/5').then(function (resp) {
       console.log(resp)
       _this.tableData = resp.data.data
       _this.total = resp.data.totalCount

@@ -254,7 +254,7 @@ export default {
   methods: {
     addUser () {
       console.log(this.form)
-      this.$http.put('/user/save', this.form).then(res => {
+      this.$http.put('/api/user/save', this.form).then(res => {
         console.log(res.data)
       })
       this.$message({
@@ -269,7 +269,7 @@ export default {
     },
     editUser () {
       console.log(this.editForm)
-      this.$http.put('/user/save', this.editForm).then(res => {
+      this.$http.put('/api/user/save', this.editForm).then(res => {
         console.log(res.data)
       })
       this.edit = false
@@ -308,7 +308,7 @@ export default {
   // },
   created () {
     const _this = this
-    this.$http.get('/user/list').then(function (resp) {
+    this.$http.get('/api/user/list').then(function (resp) {
       console.log(resp)
       _this.tableData = resp.data
     })
