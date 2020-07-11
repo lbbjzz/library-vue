@@ -18,5 +18,6 @@ export const language = {
   register: '注冊',
   code: '驗證碼',
   getCode: '獲取驗證碼',
-  code_error: '請輸入驗證碼！'
+  code_error: '請輸入驗證碼！',
+  getCode_error: '驗證碼錯誤！'
 }

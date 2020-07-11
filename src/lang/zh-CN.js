@@ -18,5 +18,6 @@ export const language = {
   register: '注册',
   code: '验证码',
   getCode: '获取验证码',
-  code_error: '请输入验证码！'
+  code_error: '请输入验证码！',
+  getCode_error: '验证码错误！'
 }

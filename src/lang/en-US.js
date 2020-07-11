@@ -18,5 +18,6 @@ export const language = {
   register: 'register',
   code: 'Code',
   getCode: 'Get Code',
-  code_error: 'Please Enter Your Verify Code!'
+  code_error: 'Please Enter Your Verify Code!',
+  getCode_error: 'Wrong Code!'
 }

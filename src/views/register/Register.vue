@@ -64,7 +64,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Register',
   data () {
@@ -170,39 +169,56 @@ export default {
           break
       }
     },
-    // getCode () {
-    //   this.$http.get('/api/sendCodeEmail', {
-    //     userName: this.form.userName,
-    //     password: this.form.password,
-    //     sex: this.form.sex,
-    //     email: this.form.email
-    //   }).then(res => {
-    //     console.log(res.data)
-    //   })
-    // },
-    toRegister () {
-      console.log(this.form)
-      this.$http.put('/api/user/register', {
+    getCode () {
+      console.log(this.form, 'getcode')
+      this.$http.post('/api/sendCodeEmail', {
         userName: this.form.userName,
         password: this.form.password,
         sex: this.form.sex,
         email: this.form.email
       }).then(res => {
-        console.log(res)
-        if (res.data === 'success') {
-          this.$message({
-            type: 'success',
-            message: this.$t('language.register_success')
-          })
-          this.$router.push('/login')
-        } else {
-          console.log(res)
-          this.$message({
-            type: 'warning',
-            message: this.$t('language.register_error')
-          })
-        }
+        console.log(res.data, 'code')
+        this.$store.commit('setCode', res.data)
       })
+    },
+    toRegister () {
+      const _code = this.$store.state.tab.code
+      console.log(this.$store.state.tab.code, 'getCodeooooo')
+      if (_code === this.form.code) {
+        this.$http.put('/api/user/register', {
+          userName: this.form.userName,
+          password: this.form.password,
+          sex: this.form.sex,
+          email: this.form.email
+        }).then(res => {
+          console.log(res, 'toregister')
+          if (res.data === 'exits') {
+            this.$message({
+              type: 'warning',
+              message: '用户名已经存在！'
+            })
+          } else {
+            if (res.data === 'success') {
+              this.$message({
+                type: 'success',
+                message: this.$t('language.register_success')
+              })
+              this.$router.push('/login')
+            } else {
+              console.log(res)
+              this.$message({
+                type: 'warning',
+                message: this.$t('language.register_error')
+              })
+            }
+          }
+        })
+      } else {
+        this.$message({
+          type: 'success',
+          message: this.$t('language.getCode_error')
+        })
+      }
     }
   }
 }

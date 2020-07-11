@@ -7,6 +7,11 @@ export default {
     menu: []
   },
   mutations: {
+    setCode (state, val) {
+      state.code = val
+      Cookie.set('code', JSON.stringify(val))
+      console.log(val, 'vuex')
+    },
     setMenu (state, val) {
       state.menu = val
       Cookie.set('menu', JSON.stringify(val))

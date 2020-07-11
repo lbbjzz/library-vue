@@ -57,12 +57,12 @@
                 <el-table-column
                         prop="bookId"
                         label="图书ID"
-                        width="150">
+                        width="100">
                 </el-table-column>
                 <el-table-column
                         prop="returnDate"
                         label="最晚归还时间"
-                        width="150">
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="isReturned"
@@ -217,6 +217,7 @@ export default {
       }).then(() => {
         console.log(this.submitForm, 'submit')
         this.$http.put('/api/user/save', this.ruleForm).then(function (resp) {
+          console.log(resp)
           _this.$message({
             type: 'success',
             message: '修改成功'
@@ -233,30 +234,30 @@ export default {
         })
       })
     },
-    editpwd (formName) {
-      const _this = this
-      _this.$confirm('确认修改吗, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$http.put('/api/user/save', this.pwdForm).then(function (resp) {
-          _this.$message({
-            type: 'success',
-            message: '修改成功'
-          })
-          clearTimeout(_this.timer)
-          _this.timer = setTimeout(() => {
-            window.location.reload()
-          }, 1000)
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消修改'
-        })
-      })
-    },
+    // editpwd (formName) {
+    //   const _this = this
+    //   _this.$confirm('确认修改吗, 是否继续?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   }).then(() => {
+    //     this.$http.put('/api/user/save', this.pwdForm).then(function (resp) {
+    //       _this.$message({
+    //         type: 'success',
+    //         message: '修改成功'
+    //       })
+    //       clearTimeout(_this.timer)
+    //       _this.timer = setTimeout(() => {
+    //         window.location.reload()
+    //       }, 1000)
+    //     })
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'info',
+    //       message: '已取消修改'
+    //     })
+    //   })
+    // },
     resetForm (formName) {
       this.$refs[formName].resetFields()
     }
