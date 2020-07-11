@@ -320,6 +320,10 @@ export default {
       console.log(this.editForm)
       this.$http.put('/api/book/update', this.editForm)
       this.edit = false
+      this.timer = setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+      this.dialogFormVisible = false
     },
     handleApply: function (index, row) {
       const _this = this

@@ -19,5 +19,6 @@ export const language = {
   code: '驗證碼',
   getCode: '獲取驗證碼',
   code_error: '請輸入驗證碼！',
-  getCode_error: '驗證碼錯誤！'
+  getCode_error: '驗證碼錯誤！',
+  exits_error: '用戶名存在！'
 }

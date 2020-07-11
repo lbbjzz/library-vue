@@ -195,22 +195,20 @@ export default {
           if (res.data === 'exits') {
             this.$message({
               type: 'warning',
-              message: '用户名已经存在！'
+              message: this.$t('language.exits_error')
             })
+          } else if (res.data === 'success') {
+            this.$message({
+              type: 'success',
+              message: this.$t('language.register_success')
+            })
+            this.$router.push('/login')
           } else {
-            if (res.data === 'success') {
-              this.$message({
-                type: 'success',
-                message: this.$t('language.register_success')
-              })
-              this.$router.push('/login')
-            } else {
-              console.log(res)
-              this.$message({
-                type: 'warning',
-                message: this.$t('language.register_error')
-              })
-            }
+            console.log(res)
+            this.$message({
+              type: 'warning',
+              message: this.$t('language.register_error')
+            })
           }
         })
       } else {

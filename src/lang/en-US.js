@@ -19,5 +19,6 @@ export const language = {
   code: 'Code',
   getCode: 'Get Code',
   code_error: 'Please Enter Your Verify Code!',
-  getCode_error: 'Wrong Code!'
+  getCode_error: 'Wrong Code!',
+  exits_error: 'UserName Exits!'
 }
