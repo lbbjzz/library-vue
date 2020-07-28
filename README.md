@@ -1,6 +1,6 @@
 # library-vue
 
-## 项目在线体验地址：~~www.bbjzz.com~~
+## 项目在线体验地址：~~www.lbbjzz.com~~
 
 ## Project setup
 ```
@@ -23,3 +23,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## 项目预览
 ### 登陆界面
+
