@@ -1,5 +1,7 @@
 # library-vue
 
+## 项目在线体验地址：~~www.bbjzz.com~~
+
 ## Project setup
 ```
 npm install
@@ -17,3 +19,7 @@ npm run build
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+## 项目预览
+### 登陆界面
